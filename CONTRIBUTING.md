@@ -1,4 +1,4 @@
-# EtherAddressLookup Contributing Guide
+# Candor Contributing Guide
 
 ## How to submit links to blacklists/whitelists
 
@@ -9,15 +9,15 @@ For each type of request, please make sure you provide evidence as to why it nee
 This list will redirect users away from the domain so you cannot view it. You can submit a **blacklist** request via the following methods (in no particular order);
 
 * [https://etherscamdb.info/report/](https://etherscamdb.info/report/) 
-* [Opening a new issue](https://github.com/409H/EtherAddressLookup/issues/new)
-* [Opening a new pull request with your change](https://github.com/409H/EtherAddressLookup/compare)
+* [Opening a new issue](https://github.com/409H/Candor/issues/new)
+* [Opening a new pull request with your change](https://github.com/409H/Candor/compare)
 
 #### Whistelists
 
 This will ensure the domain can be accessed with EAL enabled, even if the domain is on the blacklist (by mistake or otherwsie). You can submit a **whitelist** request via the following methods (in no particular order);
 
-* [Opening a new issue](https://github.com/409H/EtherAddressLookup/issues/new)
-* [Opening a new pull request with your change](https://github.com/409H/EtherAddressLookup/compare)
+* [Opening a new issue](https://github.com/409H/Candor/issues/new)
+* [Opening a new pull request with your change](https://github.com/409H/Candor/compare)
 
 #### What kind of links do I submit?
 

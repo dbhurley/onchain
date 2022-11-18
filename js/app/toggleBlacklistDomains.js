@@ -48,7 +48,7 @@ function refreshBlacklistDomains()
     var intBlacklistDomains = localStorage.getItem("ext-etheraddresslookup-blacklist_domains");
 
     if(intBlacklistDomains === null) {
-        document.getElementById("ext-etheraddresslookup-blacklist_domains").checked = true;
+        // document.getElementById("ext-etheraddresslookup-blacklist_domains").checked = true;
     } else {
         document.getElementById("ext-etheraddresslookup-blacklist_domains").checked = (intBlacklistDomains == 1 ? true : false);
     }

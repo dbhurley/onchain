@@ -18,5 +18,5 @@ function refreshPerformAddressLookups() {
     if(intAddressLookups === null) {
         intAddressLookups = 1;
     }
-    document.getElementById("ext-etheraddresslookup-perform_address_lookups").checked = (intAddressLookups == 1 ? true : false);
+    //document.getElementById("ext-etheraddresslookup-perform_address_lookups").checked = (intAddressLookups == 1 ? true : false);
 }

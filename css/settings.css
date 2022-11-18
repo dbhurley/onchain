@@ -1,7 +1,7 @@
 body {
   background: #00c2c1;
   padding: 50px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #fff;
   font-weight: 600;
 }
@@ -11,7 +11,7 @@ body .hide-me {
 }
 
 body h3 {
-  font-size: 23pt;
+  font-size: 18pt;
 }
 
 .pure-g {

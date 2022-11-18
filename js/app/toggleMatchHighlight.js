@@ -15,7 +15,7 @@ function refreshHighlightOption()
     var objBrowser = chrome ? chrome : browser;
     var intShowHighlight = localStorage.getItem("ext-etheraddresslookup-show_style");
 
-    document.querySelector(HIGHLIGHT_CHECKBOX_SELECTOR).checked = (intShowHighlight == 1 ? true : false);
+    // document.querySelector(HIGHLIGHT_CHECKBOX_SELECTOR).checked = (intShowHighlight == 1 ? true : false);
     //Notify the tab to do a class method
     var strMethod = (intShowHighlight == 1 ? "addHighlightStyle" : "removeHighlightStyle");
 

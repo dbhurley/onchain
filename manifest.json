@@ -1,15 +1,15 @@
 {
   "manifest_version": 2,
 
-  "name": "EtherAddressLookup",
-  "short_name": "EtherAddressLookup",
-  "description": "Adds links to strings that look like Ethereum addresses to your favorite blockchain explorer + antiphishing measures.",
-  "version": "1.23.1",
+  "name": "Candor",
+  "short_name": "Candor",
+  "description": "Predictive, Honest, Insight. Providing a way to verify and trust the safety of web3 addresses and contracts.",
+  "version": "0.1.4",
 
   "browser_action": {
-    "default_icon": "images/ether-128x128.png",
+    "default_icon": "images/candor-icon.png",
     "default_popup": "options.html",
-    "default_title": "EtherAddressLookup"
+    "default_title": "Candor"
   },
 
   "permissions": [
@@ -63,10 +63,17 @@
     "scripts": ["js/options.js"]
   },
 
+  "commands": {
+    "_execute_browser_action": {
+              "suggested_key": "MacCtrl+C",
+              "description": "Check safety"
+    }
+  },
+  
   "icons": {
-    "16": "images/ether-16x16.png",
-    "48": "images/ether-48x48.png",
-    "128": "images/ether-128x128.png"
+    "16": "images/candor-icon.png",
+    "48": "images/candor-icon.png",
+    "128": "images/candor-icon.png"
   },
 
   "web_accessible_resources": [

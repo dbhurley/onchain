@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/409H/EtherAddressLookup.git"
+    "url": "git+https://github.com/candor/candor.git"
   },
   "keywords": [
     "Ethereum",
@@ -21,9 +21,9 @@
   "author": "Harry Denley",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/409H/EtherAddressLookup/issues"
+    "url": "https://github.com/candor/candor/issues"
   },
-  "homepage": "https://github.com/409H/EtherAddressLookup#readme",
+  "homepage": "https://github.com/candor/candor#readme",
   "devDependencies": {
     "babel-eslint": "^8.2.3",
     "eslint": "^4.19.1",

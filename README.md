@@ -1,4 +1,4 @@
-## EtherAddressLookup
+## Candor
 
 #### Automatically adds links to strings that look like Ethereum addresses so you can quickly look them up on your favourite block explorer. 
 
@@ -26,13 +26,13 @@ here: [https://chrome.google.com/webstore/detail/etheraddresslookup/pdknmigbbbhm
 ### Manual Installation
 
 #### Chrome
-* Clone/download [the repo](https://github.com/409H/EtherAddressLookup).
+* Clone/download [the repo](https://github.com/409H/Candor).
 * Go to [chrome://extensions](chrome://extensions) in Chrome
 * Turn on developer mode.
 * Load the `manifest.json` file by dragging and dropping.
 
 #### Firefox
-* Clone/download [the repo](https://github.com/409H/EtherAddressLookup).
+* Clone/download [the repo](https://github.com/409H/Candor).
 * Go to [about:debugging](about:debugging) in Firefox
 * Click "Load Temporary Add-on"
 * Browse to the downloaded repo, and double click `manifest.json`
@@ -63,16 +63,16 @@ As a community resource, everyone is encouraged to make a PR to add or update th
 
 The blacklist can only be updated by myself (@409H) and MyEtherWallet (@tayvano). This is a to prevent anyone
 from modifying the blacklist (ie: removing something). To request a change to the 
-blacklist, please [open an issue](https://github.com/409H/EtherAddressLookup/issues/new) or open
-a [pull request](https://github.com/409H/EtherAddressLookup/compare) with the changes. Make sure you give some
+blacklist, please [open an issue](https://github.com/409H/Candor/issues/new) or open
+a [pull request](https://github.com/409H/Candor/compare) with the changes. Make sure you give some
 details on why the changes are needed.
 
 ## Whitelisted Domains
 
 The whitelist can only be updated by myself (@409H) and MyCrypto (@tayvano). The whitelist will prevent any false-positives
 from happening with the Levenshtein algo (special thanks to @sogoiii). If you find a domain that is wrongly blacklisted, then please
-[open an issue](https://github.com/409H/EtherAddressLookup/issues/new) or open
-a [pull request](https://github.com/409H/EtherAddressLookup/compare) with the changes.
+[open an issue](https://github.com/409H/Candor/issues/new) or open
+a [pull request](https://github.com/409H/Candor/compare) with the changes.
 
 ## Special Thanks
 

@@ -48,8 +48,8 @@
         padding-top: 15px;
         padding-left: 15px;
         padding-right: 15px;
-        background: url(/images/powered-by-mycrypto.png);
-        background-size: 85%;
+        background: url(/images/bg.png);
+        // background-size: 85%;
         background-position: bottom;
         background-repeat: no-repeat;
 
@@ -189,6 +189,23 @@
     font-family: inherit;
     font-weight: 500;
     line-height: 1.1;
+}
+
+#ext-etheraddresslookup-logo {
+    background: url(/images/candor-logo.png);
+    background-size: 85%;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    height: 48px;
+}
+
+#ext-etheraddresslookup-logo h1 {
+    display: none;
+}
+
+#ext-etheraddresslookup-logo .description {
+    float: right;
+    text-align: right;
 }
 
 .ext-etheraddresslookup-popover .close {

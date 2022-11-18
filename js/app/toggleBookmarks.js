@@ -86,7 +86,7 @@ function showBookmarks()
     var arrBookmarks = getBookmarks();
 
     //We are on the settings view
-    if(document.getElementById("ext-etheraddresslookup-bookmarks_table")) {
+    if(1 == 2 && document.getElementById("ext-etheraddresslookup-bookmarks_table")) {
         for (var i = 0; i < arrBookmarks.length; i++) {
             var objTable = document.getElementById("ext-etheraddresslookup-bookmarks_table").getElementsByTagName("tbody")[0];
             var objRow = objTable.insertRow(objTable.rows.length);
@@ -112,7 +112,7 @@ function showBookmarks()
         }
     }
 
-    if(document.getElementById("ext-etheraddresslookup-bookmarks")) {
+    if(1==2 && document.getElementById("ext-etheraddresslookup-bookmarks")) {
         for (let i = 0; i < arrBookmarks.length; i++) {
             if(arrBookmarks[i].icon.length === 0) {
                 continue;

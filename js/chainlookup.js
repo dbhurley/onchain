@@ -1,6 +1,7 @@
 const FORM_CHAIN_LOOKUP_SELECTOR = '#ext-etheraddresslookup-chain_lookup_form';
 const FORM_CHAIN_LOOKUP_INPUT_SELECTOR = '#ext-etheraddresslookup-addr_or_tx';
 const FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR = '#ext-etheraddresslookup-chain_lookup_output';
+const FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR_LABEL = '#candor-popover-phi-heading';
 const FORM_CHAIN_LOOKUP_DETAILS_SELECTOR = '#ext-etheraddresslookup-chain_lookup_details';
 
 class ChainLookup 
@@ -16,6 +17,8 @@ class ChainLookup
     setupFormSubmitHandler()
     {
         if(document.querySelector(FORM_CHAIN_LOOKUP_SELECTOR)) {
+
+            document.querySelector(FORM_CHAIN_LOOKUP_INPUT_SELECTOR).focus();
 
             this.getRpcDetails();
 
@@ -36,14 +39,13 @@ class ChainLookup
     {
 
         if(document.querySelector(FORM_CHAIN_LOOKUP_DETAILS_SELECTOR)) {
-            let intBlockNumber = await this.web3.eth.blockNumber;
+            let intBlockNumber = this.web3.eth.getBlockNumber().then(result => {
+                this.intBlockNumber = result;
 
-            this.intBlockNumber = intBlockNumber;
-
-            document.querySelector(FORM_CHAIN_LOOKUP_DETAILS_SELECTOR).innerHTML = `
-                <strong>Latest Block Number:</strong> ${intBlockNumber.toLocaleString("en-US")} <br />
-            `
-
+                document.querySelector(FORM_CHAIN_LOOKUP_DETAILS_SELECTOR).innerHTML = `
+                    ${result.toLocaleString("en-US")}`
+            });
+/*
             chrome.runtime.sendMessage({ func: "rpc_details" }, (objResponse) => {
                 let objDetails = JSON.parse(objResponse.resp);
 
@@ -51,12 +53,14 @@ class ChainLookup
                     <strong>Network:</strong> ${objDetails.name} (${objDetails.type})
                 `;
             });
+*/
         }
     }
 
     async resolve(strInput)
     {
         strInput = strInput.trim();
+        let raw = strInput;
         strInput = strInput.startsWith("0x") ? strInput : `0x${strInput}`
         
         document.querySelector(FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR).innerHTML = ``;
@@ -72,9 +76,7 @@ class ChainLookup
                 break;
             case 'UNKNOWN':
                 if(strInput.endsWith(".eth")) {
-                    document.querySelector(FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR).innerHTML += `
-                    <span class="error">ENS Integration coming soon. Search by 0x address or transaction hash.</span>
-                `;
+                    await this.doAddressLookup(await this.web3.eth.ens.getAddress(raw));
                 } else {
                     document.querySelector(FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR).innerHTML = `
                     <span class="error">Invalid input. Either an Ethereum address or transaction hash.</span>
@@ -101,25 +103,63 @@ class ChainLookup
 
     async doAddressLookup(strInput)
     {
-        let strAddressBlockie = blockies.create({
-            seed: strInput.toLowerCase(),
-            size: 8,
-            scale: 16
-        }).toDataURL();
-
         let objAddressDetails = {
             "eth": 0,
             "tx": 0,
             "contract": false
         };
 
-        objAddressDetails.eth = this.web3.fromWei(
-            this.web3.eth.getBalance(strInput).toString(10), "ether"
-        ).toLocaleString("en-US", {maximumSignificantDigits: 5});
+        objAddressDetails.contract = await this.web3.eth.getCode(strInput) == "0x" ? "wallet": "contract";
+        let strLabel = "";
+        let strAddressStatus = "";
+        let strAddressBlockie = "";
+        let strAddressScore = "";
 
-        objAddressDetails.tx = parseInt(this.web3.eth.getTransactionCount(strInput)).toLocaleString();
-        objAddressDetails.contract = this.web3.eth.getCode(strInput) === "0x" ? "Normal (EOA)": "Contract";
+        let candorStats = await fetch('https://api.candor.io/api/address/' + strInput)
+            .then((response) => response.json())
+            .then((data) => {
+                data.score = data.score * 4;
+                strAddressScore = data.score;
+                if (data.score <= 10 ) {
+                    strAddressBlockie = 'https://github.com/WithCandor/assets/blob/main/candor-danger-1x.png?raw=true';
+                    strAddressStatus = 'dangerous ' + objAddressDetails.contract;
+                    document.querySelector(FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR_LABEL).innerHTML = `<div class="candor-popover-phi-label phi-label-danger">This ${objAddressDetails.contract} could be a scam</div>`;
+                    strLabel = 'candor-popover-danger';
+                } else if (data.score <= 50) {
+                    strAddressBlockie = 'https://github.com/WithCandor/assets/blob/main/candor-warning-icon-1x.png?raw=true';
+                    strAddressStatus = 'potentially dangerous';
+                    document.querySelector(FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR_LABEL).innerHTML = `<div class="candor-popover-phi-label phi-label-warning">This ${objAddressDetails.contract} is dangerous</div>`;
+                    strLabel = 'candor-popover-warning';
+                } else if (data.score <= 75) {
+                    strAddressBlockie = 'https://github.com/WithCandor/assets/blob/main/candor-neutral-1x.png?raw=true';
+                    strAddressStatus = 'neutral ' + objAddressDetails.contract;
+                    document.querySelector(FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR_LABEL).innerHTML = `<div class="candor-popover-phi-label phi-label-neutral">This ${objAddressDetails.contract} is neutral </div>`;
+                    strLabel = 'candor-popover-neutral';
+                } else if (data.score <= 100) {
+                    strAddressBlockie = 'https://github.com/WithCandor/assets/blob/main/candor-safe-1x.png?raw=true';
+                    strAddressStatus = 'safe ' + objAddressDetails.contract;
+                    document.querySelector(FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR_LABEL).innerHTML = `<div class="candor-popover-phi-label phi-label-safe">This ${objAddressDetails.contract} is safe</div>`;                    strLabel = 'candor-popover-safe';
+                } else {
+                    strAddressBlockie = 'https://github.com/WithCandor/assets/blob/main/candor-pending-1x.png?raw=true';
+                    strAddressStatus = 'unverified ' + objAddressDetails.contract;
+                    document.querySelector(FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR_LABEL).innerHTML = `<div class="candor-popover-phi-label phi-label-pending">This ${objAddressDetails.contract} is unverified</div>`;                    strLabel = 'candor-popover-pending';
+                }
+            });
+        
+            //Get the account balance
+            let gweiBalance = "";
+            gweiBalance = await this.web3.eth.getBalance(strInput);
+            objAddressDetails.eth = await this.web3.utils.fromWei(gweiBalance, "ether").slice(0,5);
+            // this.web3.eth.getBalance(strInput).then(result => {
+            //     flEthBalance = this.web3.utils.fromWei(result.toString(10), "ether").toLocaleString("en-US", {maximumSignificantDigits: 9});
+            //     objAddressDetails.eth = flEthBalance;
+            // });
 
+        if (objAddressDetails.contract === "wallet") {
+            objAddressDetails.tx = parseInt(await this.web3.eth.getTransactionCount(strInput)).toLocaleString();
+        } else {
+            objAddressDetails.tx = '';
+        }
         let strAddressLookedup = strInput;
         let objLabels = new Labels();
         let objLabelledAddress = await objLabels.getLabelForAddress(strAddressLookedup);
@@ -129,16 +169,16 @@ class ChainLookup
         }
 
         document.querySelector(FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR).innerHTML = `
-                <strong>Address:</strong> <br />
-                    <span>
-                        <img class="blockie" src="${strAddressBlockie}" />
-                        <a target="_blank" href="${this.strBlockExplorer +"/"+ strInput}">${strAddressLookedup}</a>
-                    </span> <br />
+                <div id="candor-popover-phi" class="${strLabel}">
                     <ul>
-                        <li><strong>ETH:</strong> ${objAddressDetails.eth}</li>
-                        <li><strong>Transactions out:</strong> ${objAddressDetails.tx}</li>
-                        <li><strong>Type:</strong> ${objAddressDetails.contract}</li>
+                        <li><span class="pop-label">address</span> <img class="blockie" src="${strAddressBlockie}" />
+                        <a target="_blank" href="${this.strBlockExplorer +"/"+ strInput}">${ChainLookup.getShortAddress(strAddressLookedup)}</a></li>
+                        <li><span class="pop-label">φ score</span> ${strAddressScore}%</li>
+                        <li><span class="pop-label">status</span> ${strAddressStatus}</li>
+                        <li><span class="pop-label">balance</span> ${objAddressDetails.eth} Ξ</li>
+                        <li><span class="pop-label">transactions</span> ${objAddressDetails.tx}</li>
                     </ul>
+                </div>
             `;
     }
 
@@ -177,14 +217,14 @@ class ChainLookup
         }).toDataURL();
 
         let objTxDetails = {
-            "eth": this.web3.fromWei(objTransaction.value).toLocaleString("en-US", {maximumSignificantDigits: 4}),
-            "eth_full": this.web3.fromWei(objTransaction.value).toLocaleString("en-US", {maximumSignificantDigits: 18}),
+            "eth": this.web3.utils.fromWei(objTransaction.value).toLocaleString("en-US", {maximumSignificantDigits: 4}),
+            "eth_full": this.web3.utils.fromWei(objTransaction.value).toLocaleString("en-US", {maximumSignificantDigits: 18}),
             "gas": {
                 "limit": objTransaction.gas.toLocaleString("en-US"),                
-                "price": this.web3.fromWei(objTransaction.gasPrice.toString()).toLocaleString("en-US"),
+                "price": this.web3.utils.fromWei(objTransaction.gasPrice.toString()).toLocaleString("en-US"),
                 "used": objTransactionReceipt.gasUsed,
                 "used_percent": (objTransactionReceipt.gasUsed / objTransaction.gas)*100,
-                "fee": (objTransactionReceipt.gasUsed * this.web3.fromWei(objTransaction.gasPrice.toString()).toLocaleString("en-US"))
+                "fee": (objTransactionReceipt.gasUsed * this.web3.utils.fromWei(objTransaction.gasPrice.toString()).toLocaleString("en-US"))
             },
             "block": {
                 "number": objTransaction.blockNumber ? objTransaction.blockNumber.toLocaleString("en-US") : null,
@@ -292,6 +332,6 @@ class ChainLookup
 
     static getShortAddress(strAddress)
     {
-        return `${strAddress.slice(0, 4)}...${strAddress.slice(strAddress.length-4, strAddress.length)}`
+        return `${strAddress.slice(0, 8)}...${strAddress.slice(strAddress.length-4, strAddress.length)}`
     }
 } 

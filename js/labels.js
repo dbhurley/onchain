@@ -207,21 +207,21 @@ class Labels {
     }
 
     setupFormSubmitHandler() {
-        document.getElementById('ext-etheraddresslookup-new-label-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
+        // document.getElementById('ext-etheraddresslookup-new-label-form').addEventListener('submit', async (event) => {
+        //     event.preventDefault();
 
-            const name = document.querySelector(FORM_NAME_SELECTOR).value;
-            const address = document.querySelector(FORM_ADDRESS_SELECTOR).value;
-            const color = document.querySelector(FORM_COLOR_SELECTOR).value;
+        //     const name = document.querySelector(FORM_NAME_SELECTOR).value;
+        //     const address = document.querySelector(FORM_ADDRESS_SELECTOR).value;
+        //     const color = document.querySelector(FORM_COLOR_SELECTOR).value;
 
-            if (!name || !address || !color) {
-                alert('Please make sure that "Name", "Address", and "Color" is filled.');
-            } else {
-                await this.add(name, address, color);
+        //     if (!name || !address || !color) {
+        //         alert('Please make sure that "Name", "Address", and "Color" is filled.');
+        //     } else {
+        //         await this.add(name, address, color);
 
-                await this.updateLabelsList();
-            }
-        });
+        //         await this.updateLabelsList();
+        //     }
+        // });
     }
 
     async updateLabelsList() {

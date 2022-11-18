@@ -175,13 +175,15 @@ objBrowser.runtime.onMessage.addListener(
                 strResponse = JSON.stringify(objDomainLists);
                 break;
             case 'twitter_validation' :
+                strResponse = 1;
                 //This option is enabled by default
-                if(localStorage.getItem("ext-etheraddresslookup-twitter_validation") === null) {
-                    strResponse = 1;
-                } else {
-                    strResponse = localStorage.getItem("ext-etheraddresslookup-twitter_validation");
-                }
+                // if(localStorage.getItem("ext-etheraddresslookup-twitter_validation") === null) {
+                //     strResponse = 1;
+                // } else {
+                //     strResponse = localStorage.getItem("ext-etheraddresslookup-twitter_validation");
+                // }
                 break;
+
             case 'twitter_lists' :
                 //See when they were last fetched
                 let twitter_lists = {
@@ -241,10 +243,6 @@ objBrowser.runtime.onMessage.addListener(
                 if(strBookmarks === null) {
                     var arrBookmarks = new Array();
                     arrBookmarks.push({
-                        "icon": "https://www.google.com/s2/favicons?domain=https://mycrypto.com",
-                        "url": "https://mycrypto.com"
-                    });
-                    arrBookmarks.push({
                         "icon": "images/bookmarks/etherscan.png",
                         "url": "https://etherscan.io"
                     });
@@ -255,14 +253,6 @@ objBrowser.runtime.onMessage.addListener(
                     arrBookmarks.push({
                         "icon": "images/bookmarks/ethplorer.jpg",
                         "url": "https://ethplorer.io"
-                    });
-                    arrBookmarks.push({
-                        "icon": "images/bookmarks/rethereum.png",
-                        "url": "https://reddit.com/r/ethereum"
-                    });
-                    arrBookmarks.push({
-                        "icon": "images/bookmarks/rethtrader.png",
-                        "url": "https://reddit.com/r/ethtrader"
                     });
                 } else {
                     arrBookmarks = JSON.parse(strBookmarks);
@@ -302,33 +292,33 @@ objBrowser.runtime.onMessage.addListener(
                 switch(request.icon) {
                     case 'whitelisted' :
                         chrome.browserAction.setIcon({
-                            path: "images/ether-128x128-green_badge.png",
+                            path: "images/candor-safe.png",
                             tabId: sender.tab.id
                         });
 
                         chrome.browserAction.setTitle({
-                            title: ["This domain is recognised as legitimate by EtherAddressLookup", strReason].filter(i => i).join(" - ")
+                            title: ["This domain is recognised as legitimate by Candor", strReason].filter(i => i).join(" - ")
                         });
                     break;
                     case 'blacklisted' :
                         chrome.browserAction.setIcon({
-                            path: "images/ether-128x128-red_badge.png",
+                            path: "images/candor-danger.png",
                             tabId: sender.tab.id
                         });
 
                         chrome.browserAction.setTitle({
-                            title: ["This domain is recognised as bad by EtherAddressLookup", strReason].filter(i => i).join(" - ")
+                            title: ["This domain is recognised as bad by Candor", strReason].filter(i => i).join(" - ")
                         });
                     break;                    
                     case 'neutral' :
                     default :
                         chrome.browserAction.setIcon({
-                            path: "images/ether-128x128.png",
+                            path: "images/candor-neutral.png",
                             tabId: sender.tab.id
                         });
 
                         chrome.browserAction.setTitle({
-                            title: "EtherAddressLookup (Powered by MyCrypto)",
+                            title: "Candor",
                         });
 
                     break;                    
@@ -384,7 +374,7 @@ function getBlacklistedDomains(strType)
         var objBlacklistedDomains = localStorage.getItem("ext-etheraddresslookup-blacklist_domains_list");
         //Check to see if the cache is older than 5 minutes, if so re-cache it.
         objBlacklistedDomains = JSON.parse(objBlacklistedDomains);
-        console.log("Domains last fetched: " + (Math.floor(Date.now() / 1000) - objBlacklistedDomains.timestamp) + " seconds ago");
+        console.log("Last updated: " + (Math.floor(Date.now() / 1000) - objBlacklistedDomains.timestamp) + " seconds ago");
         if (objBlacklistedDomains.timestamp == 0 || (Math.floor(Date.now() / 1000) - objBlacklistedDomains.timestamp) > 300) {
             updateAllBlacklists(objEalBlacklistedDomains);
         }
@@ -466,9 +456,9 @@ function getWhitelistedDomains()
         objWhitelistedDomains = localStorage.getItem("ext-etheraddresslookup-whitelist_domains_list");
         //Check to see if the cache is older than 5 minutes, if so re-cache it.
         objWhitelistedDomains = JSON.parse(objWhitelistedDomains);
-        console.log("Whitelisted domains last fetched: " + (Math.floor(Date.now() / 1000) - objWhitelistedDomains.timestamp) + " seconds ago");
+        console.log("Safe domains last updated: " + (Math.floor(Date.now() / 1000) - objWhitelistedDomains.timestamp) + " seconds ago");
         if ((Math.floor(Date.now() / 1000) - objWhitelistedDomains.timestamp) > 300) {
-            console.log("Caching whitelisted domains again.");
+            console.log("Caching safe domains again.");
             getWhitelistedDomainsFromSource().then(function (arrDomains) {
                 objWhitelistedDomains.timestamp = Math.floor(Date.now() / 1000);
                 objWhitelistedDomains.domains = arrDomains;
@@ -485,19 +475,19 @@ function getWhitelistedDomains()
 async function getBlacklistedDomainsFromSource(objBlacklist)
 {
     try {
-        console.log("Getting blacklist from GitHub now: "+ objBlacklist.repo);
+        console.log("Real-time defender update now: "+ objBlacklist.repo);
         let objResponse = await fetch(objBlacklist.repo);
         return objResponse.json();
     }
     catch(objError) {
-        console.log("Failed to get blacklist for "+ objBlacklist.repo, objError);
+        console.log("Failed to get defender update for "+ objBlacklist.repo, objError);
     }
 }
 
 async function getWhitelistedDomainsFromSource()
 {
     try {
-        console.log("Getting whitelist from GitHub now: https://raw.githubusercontent.com/409H/EtherAddressLookup/master/whitelists/domains.json");
+        console.log("Recalculating safe domains now: https://raw.githubusercontent.com/409H/EtherAddressLookup/master/whitelists/domains.json");
         let objResponse = await fetch("https://raw.githubusercontent.com/409H/EtherAddressLookup/master/whitelists/domains.json");
         return objResponse.json();
     }

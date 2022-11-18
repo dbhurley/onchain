@@ -6,13 +6,14 @@ const ADDRESS_DISPLAY_POPUP_CLASS_NAME = `${EXT_PREFIX}-display-popup`;
 const ATTRIBUTE_ADDRESS_UNIQUE_ID = `data-${EXT_PREFIX}-address-unique-id`;
 const LABEL_LOADED_ATTRIBUTE = `data-${EXT_PREFIX}-label-loaded`;
 
-class EtherAddressLookup {
+class Candor {
     constructor(objWeb3, labels)
     {
         this.objWeb3 = objWeb3;
         this._labels = labels;
 
         this.strRpcDetails = "";
+        this.candor_score = "";
 
         this.setDefaultExtensionSettings();
         this.init();
@@ -120,8 +121,11 @@ class EtherAddressLookup {
             // ENS Address Replace
             '$1<a title="See this address on the blockchain explorer" ' +
             'href="' + this.strBlockchainExplorer + '/$2" ' +
-            'class="ext-etheraddresslookup-link" ' +
-            'target="'+ this.target +'">$2</a>$3',
+            'data-address="$2"' + 
+            'class="ext-etheraddresslookup-link ext-etheraddresslookup-0xaddress" ' +
+            'target="'+ this.target +'">' +
+            '<div class="ext-etheraddresslookup-blockie" data-ether-address="$2" ></div> $2' +
+            '</a>$3',
 
             // ENS With ZWCs Replace
             '$1<slot title="WARNING! This ENS address has ZWCs. Someone may be trying to scam you." ' +
@@ -327,17 +331,42 @@ class EtherAddressLookup {
         }
     }
 
-    addBlockies()
+    async addBlockies()
     {
         var blockieDivs = document.querySelectorAll("div.ext-etheraddresslookup-blockie");
-        for(var i = 0; i < blockieDivs.length; i++){
+        
+        for(var i = 0; i < blockieDivs.length; i++){    
+            
+            if ((blockieDivs[i].getAttribute('data-ether-address').toLowerCase()).endsWith('.eth')) {
+                var web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/02b145caa61b49998168f2b97d4ef323'));
+                let newAddress = await web3.eth.ens.getAddress(blockieDivs[i].getAttribute('data-ether-address').toLowerCase()).then(result => {
+                    blockieDivs[i].setAttribute('data-ether-address', result);
+                });
+            } 
 
-            blockieDivs[i].style.backgroundImage = 'url(' + blockies.create({
-                // toLowerCase is used because standard blockies are based on none-checksum Ethereum addresses
-                seed:blockieDivs[i].getAttribute('data-ether-address').toLowerCase(),
-                size: 8,
-                scale: 16
-            }).toDataURL() +')';
+            let candorAvatar = await fetch('https://api.candor.io/api/address/' + blockieDivs[i].getAttribute('data-ether-address').toLowerCase())
+            .then((response) => response.json())
+            .then((data) => {
+                data.score = data.score * 4;
+                if (data.score <= 10 ) {
+                    blockieDivs[i].style.backgroundImage = 'url(https://github.com/WithCandor/assets/blob/main/candor-danger-1x.png?raw=true)';
+                } else if (data.score <= 50) {
+                        blockieDivs[i].style.backgroundImage = 'url(https://github.com/WithCandor/assets/blob/main/candor-warning-icon-1x.png?raw=true)';
+                } else if (data.score <= 75) {
+                        blockieDivs[i].style.backgroundImage = 'url(https://github.com/WithCandor/assets/blob/main/candor-neutral-1x.png?raw=true)';
+                } else if (data.score <= 100) {
+                        blockieDivs[i].style.backgroundImage = 'url(https://github.com/WithCandor/assets/blob/main/candor-safe-1x.png?raw=true)';
+                } else {
+                        blockieDivs[i].style.backgroundImage = 'url(https://github.com/WithCandor/assets/blob/main/candor-neutral-1x.png?raw=true)';
+                }
+            });
+            
+            // blockieDivs[i].style.backgroundImage = 'url(' + blockies.create({
+            //     // toLowerCase is used because standard blockies are based on none-checksum Ethereum addresses
+            //     seed:blockieDivs[i].getAttribute('data-ether-address').toLowerCase(),
+            //     size: 8,
+            //     scale: 16
+            // }).toDataURL() +')';
         }
     }
 
@@ -365,10 +394,17 @@ class EtherAddressLookup {
 
     //Sets the on hover behaviour for the address
     // - get the address stats with rpc
-    setAddressOnHoverBehaviour()
+    async setAddressOnHoverBehaviour()
     {
         var objNodes = document.getElementsByClassName("ext-etheraddresslookup-0xaddress");
         for (var i = 0; i < objNodes.length; i++) {
+            const address = objNodes[i].getAttribute("data-address");
+            if (address.endsWith('.eth')) {
+                var web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/02b145caa61b49998168f2b97d4ef323'));
+                let newAddress = await web3.eth.ens.getAddress(address).then(result => {
+                    objNodes[i].setAttribute("data-address", result);
+                });
+            } 
             objNodes[i].addEventListener('mouseenter', this.event_0xAddressMouseEnter, false);
             objNodes[i].addEventListener('mouseleave', this.event_0xAddressMouseLeave, false);
         }
@@ -387,6 +423,12 @@ class EtherAddressLookup {
     event_0xAddressMouseEnter(event) {
         const addressElement = event.target;
         const address = addressElement.getAttribute("data-address");
+        
+        // if (address.endsWith('.eth')) {
+        //     let newAddress = web3.eth.ens.getAddress(address).then(result => {
+        //         addressElement.setAttribute("data-address", result);
+        //     });
+        // } 
 
         let uniqueAddressId = addressElement.getAttribute(ATTRIBUTE_ADDRESS_UNIQUE_ID);
 
@@ -418,88 +460,123 @@ class EtherAddressLookup {
                 <p id='${EXT_PREFIX}-fetching_data_${uniqueAddressId}'>
                     <strong>Fetching Data...</strong>
                 </p>
+                <div id='candor-popover-phi-label_${uniqueAddressId}'></div>
+                <div id='candor-tooltip-bg' class=''>
+                <!--<span id='candor-tooltip-status-label'>status</span><span id='candor-tooltip-status'>unverified contract</span>-->
                 <div id='${EXT_PREFIX}-address_stats_hover_node_error_${uniqueAddressId}' class='${EXT_PREFIX}-address_stats_hover_node_error'></div>
                 <div id='${EXT_PREFIX}-address_stats_hover_node_ok_${uniqueAddressId}' class='${EXT_PREFIX}-address_stats_hover_node_ok'></div>
-                <span id='${EXT_PREFIX}-address_balance_${uniqueAddressId}'></span>
-                <span id='${EXT_PREFIX}-transactions_out_${uniqueAddressId}'></span>
-                <span id='${EXT_PREFIX}-contract_address_${uniqueAddressId}'></span>
-                <span class="${EXT_PREFIX}-label_${uniqueAddressId}" ${LABEL_LOADED_ATTRIBUTE}="false"></span>`;
+                <ul id="candor-popover-details">
+                    <li id='${EXT_PREFIX}-score_${uniqueAddressId}'></li>
+                    <li id='${EXT_PREFIX}-address_balance_${uniqueAddressId}'></li>
+                    <li id='${EXT_PREFIX}-transactions_out_${uniqueAddressId}'></li>
+                    <li id='${EXT_PREFIX}-contract_address_${uniqueAddressId}'></li>
+                </ul>
+                <span class="${EXT_PREFIX}-label_${uniqueAddressId}" ${LABEL_LOADED_ATTRIBUTE}="false"></span></div>`;
 
 
             objHoverNode.appendChild(objHoverNodeContent);
             addressElement.appendChild(objHoverNode);
+          
 
             //Get the RPC provider for the user
             objBrowser.runtime.sendMessage({ func: "rpc_provider" }, (objResponse) => {
+
                 var web3 = new Web3(new Web3.providers.HttpProvider(objResponse.resp));
-                
+               
                 var str0xAddress = addressElement.getAttribute("data-address");
+
                 const objHoverNodeContent = addressElement.children[1].children[0];
 
+                let status = fetch('https://api.candor.io/api/address/' + addressElement.getAttribute("data-address"))
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if(objHoverNodeContent.children[0].id == "ext-etheraddresslookup-fetching_data_"+uniqueAddressId) {
+                            objHoverNodeContent.children[0].style.display = 'none';
+                        }
+
+                        // var objScore = objHoverNodeContent.querySelector("#ext-etheraddresslookup-status_"+uniqueAddressId);
+                        // objScore.innerHTML = "<span class='candor-popover-label'>status</span> "+ data.status;
+                        var objWarningLabel = objHoverNodeContent.querySelector("#candor-popover-phi-label_"+uniqueAddressId);
+
+                        data.score = data.score * 4;
+                        if (data.score < 10 ) {
+                            objHoverNodeContent.querySelector("#candor-tooltip-bg").className = 'candor-popover-danger';
+                            objWarningLabel.innerHTML = "<span class='candor-popover-phi-label phi-label-danger'>This " + data.chains[1].type + " might be a scam</span>";
+                            // objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerHTML = "<div class='candor-popover-danger-avatar'></div>";
+                        
+                        } else if (data.score < 50) {
+                            objHoverNodeContent.querySelector("#candor-tooltip-bg").className = 'candor-popover-warning';
+                            objWarningLabel.innerHTML = "<span class='candor-popover-phi-label phi-label-warning'>This " + data.chains[1].type + " is dangerous</span>";
+                            // objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerHTML = "<div class='candor-popover-warning-avatar'></div>";
+
+                        } else if (data.score < 75) {
+                            objHoverNodeContent.querySelector("#candor-tooltip-bg").className = 'candor-popover-neutral';
+                            objWarningLabel.innerHTML = "<span class='candor-popover-phi-label phi-label-neutral'>This " + data.chains[1].type + " is neutral/span>";
+                            // objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerHTML = "<div class='candor-popover-neutral-avatar'></div>";
+
+                        } else if (data.score < 100) {
+                            objHoverNodeContent.querySelector("#candor-tooltip-bg").className = 'candor-popover-safe';
+                            objWarningLabel.innerHTML = "<span class='candor-popover-phi-label phi-label-safe'>This " + data.chains[1].type + " is safe</span>";
+                            // objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerHTML = "<div class='candor-popover-safe-avatar'></div>";
+
+                        } else {
+                            objHoverNodeContent.querySelector("#candor-tooltip-bg").className = 'candor-popover-pending';
+                            objWarningLabel.innerHTML = "<span class='candor-popover-phi-label phi-label-neutral'>This " + data.chains[1].type + " is pending</span>";
+                            // objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerHTML = "<div class='candor-popover-pending-avatar'></div>";
+                        }
+
+
+                        var objScore = objHoverNodeContent.querySelector("#ext-etheraddresslookup-score_"+uniqueAddressId);
+                        objScore.innerHTML = "<span class='candor-popover-label'>Φ score</span> "+ data.score + "%";
+                });
+
                 //Get transaction count
-                web3.eth.getTransactionCount(str0xAddress, function(error, result) {
+                web3.eth.getTransactionCount(str0xAddress).then(result => {
                     if(objHoverNodeContent.children[0].id == "ext-etheraddresslookup-fetching_data_"+uniqueAddressId) {
                         objHoverNodeContent.children[0].style.display = 'none';
                     }
 
                     var intTransactionCount = "";
-                    if(error) {
-                        intTransactionCount = -1;
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_error_"+uniqueAddressId).style.display = "inline";
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_error_"+uniqueAddressId).innerText = "There were RPC errors";
-                    } else {
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).style.display = "inline";
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerText = "RPC calls successful";
-                        intTransactionCount = parseInt(result).toLocaleString();
-                    }
+                    objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).style.display = "inline";
+                    // objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerText = "👍";
+                    intTransactionCount = parseInt(result).toLocaleString();
 
                     var objTransactionCount = objHoverNodeContent.querySelector("#ext-etheraddresslookup-transactions_out_"+uniqueAddressId);
-                    objTransactionCount.innerHTML = "<strong>Transactions out:</strong> "+ intTransactionCount;
+                    objTransactionCount.innerHTML = "<span class='candor-popover-label'>transactions</span> "+ intTransactionCount;
                 });
 
                 //Get the account balance
-                web3.eth.getBalance(str0xAddress, function(error, result) {
+                web3.eth.getBalance(str0xAddress).then(result => {
                     if (objHoverNodeContent.children[0].id == "ext-etheraddresslookup-fetching_data_"+uniqueAddressId) {
                         objHoverNodeContent.children[0].style.display = 'none';
                     }
 
                     var flEthBalance = "";
-                    if (error) {
-                        flEthBalance = -1;
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_error_"+uniqueAddressId).style.display = "inline";
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_error_"+uniqueAddressId).innerText = "There were RPC errors";
-                    } else {
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).style.display = "inline";
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerText = "RPC calls successful";
-                        flEthBalance = web3.fromWei(result.toString(10), "ether").toLocaleString("en-US", {maximumSignificantDigits: 9});
-                    }
+                    objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).style.display = "inline";
+                    // objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerText = "👍";
+                    flEthBalance = web3.utils.fromWei(result.toString(10), "ether").toLocaleString("en-US", {maximumSignificantDigits: 9});
 
                     var objAddressBalance = objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_balance_"+uniqueAddressId);
-                    objAddressBalance.innerHTML += "<strong>ETH:</strong> "+ flEthBalance;
+                    objAddressBalance.innerHTML += "<span class='candor-popover-label'>balance</span> "+ flEthBalance.slice(0,5) + " Ξ";
                 });
 
                 //See if the address is a contract
-                web3.eth.getCode(str0xAddress, function(error, result) {
+                web3.eth.getCode(str0xAddress).then(result => {
                     if (objHoverNodeContent.children[0].id == "ext-etheraddresslookup-fetching_data_"+uniqueAddressId) {
                         objHoverNodeContent.children[0].style.display = 'none';
                     }
 
                     var objContractAddress = objHoverNodeContent.querySelector("#ext-etheraddresslookup-contract_address_"+uniqueAddressId);
 
-                    if (error) {
-                        objContractAddress.innerHTML += "<small>Unable to determine if contract</small>";
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_error_"+uniqueAddressId).style.display = "inline";
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_error_"+uniqueAddressId).innerText = "There were RPC errors";
-                    } else {
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).style.display = "inline";
-                        objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerText = "RPC calls successful";
-                        var blIsContractAddress = result == "0x" ? false : true;
-                        if (blIsContractAddress) {
-                            objContractAddress.innerHTML += "<small>This is a contract address</small>";
-                        }
+                    objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).style.display = "inline";
+                    // objHoverNodeContent.querySelector("#ext-etheraddresslookup-address_stats_hover_node_ok_"+uniqueAddressId).innerText = "👍";
+                    var blIsContractAddress = result == "0x" ? false : true;
+                    if (blIsContractAddress) {
+                        objContractAddress.innerHTML += "<small>This is a contract address</small>";
                     }
                 });
 
+                /** 
                 if (objResponse.resp.includes("quiknode.io")) {
                     objHoverNodeContent.innerHTML += `<div style="position:absolute;right:1em;bottom:0.5em;">
                         <a href='https://www.quiknode.io?tap_a=22610-7a7484&tap_s=150933-0c5904' target='_blank' title='RPC node managed by Quiknode.io'>
@@ -507,10 +584,11 @@ class EtherAddressLookup {
                         </a>
                     </div>`;
                 }
+                */
 
-                objHoverNodeContent.innerHTML += `<div style="position:absolute;bottom:0.5em;">
-                    <span style="font-size: 7pt"><strong>NETWORK:</strong> ${this.strRpcDetails}</span>
-                </div>`;
+                // objHoverNodeContent.innerHTML += `<div style="position:absolute;bottom:0.5em;">
+                //     <span style="font-size: 7pt"><strong>NETWORK:</strong> ${this.strRpcDetails}</span>
+                // </div>`;
             });
         }
 

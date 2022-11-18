@@ -68,6 +68,6 @@ function getTwitterLists()
 }
 
 window.addEventListener('load', function() {
-    document.querySelector(TWITTER_CHECKBOX_SELECTOR).addEventListener('click', toggleTwitterValidation);
+    // document.querySelector(TWITTER_CHECKBOX_SELECTOR).addEventListener('click', toggleTwitterValidation);
     refreshTwittertOption();
 });

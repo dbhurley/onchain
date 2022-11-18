@@ -1,5 +1,118 @@
+#candor-popover-phi {
+  min-height: 400px;
+  padding-top: 300px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+
+#candor-popover-details {
+  margin: 0;
+  padding: 10px;
+}
+
+#candor-popover-phi ul {
+  padding: 10px;
+}
+
+#candor-popover-phi ul li, #candor-popover-details li {
+  list-style: none !important;
+  color: #6493B4;
+  padding: 8px 0px;
+  border-bottom: 1px solid #F0F4F7;
+}
+
+#candor-popover-phi ul li span.pop-label, .candor-popover-label {
+  width: 45%;
+  display: block;
+  float:left;
+  color: #A6BDD0;
+}
+
+#candor-tooltip-bg {
+  min-height: 320px;
+  padding-top: 213px;
+  font-size: 12px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+
+.candor-popover-danger {
+  background: url(https://github.com/WithCandor/assets/blob/main/candor-popover-danger-1x.png?raw=true) #FFFFFF;
+  background-position: 0px 0px;
+}
+.candor-popover-warning {
+  background: url(https://github.com/WithCandor/assets/blob/main/candor-popover-warning-1x.png?raw=true) #FFFFFF;
+  background-position: 0px 0px;
+}
+.candor-popover-pending {
+  background: url(https://github.com/WithCandor/assets/blob/main/candor-popover-pending-1x.png?raw=true) #FFFFFF;
+  background-position: 0px 0px;
+}
+.candor-popover-safe {
+  background: url(https://github.com/WithCandor/assets/blob/main/candor-popover-safe-1x.png?raw=true) #FFFFFF;
+  background-position: 0px 0px;
+}
+
+.candor-popover-danger-avatar {
+  background: url(https://github.com/WithCandor/assets/blob/main/candor-danger-1x.png?raw=true);
+  background-position: 0 0;
+}
+.candor-popover-warning-avatar {
+  background: url(https://github.com/WithCandor/assets/blob/main/candor-warning-1x.png?raw=true);
+  background-position: 0 0;
+}
+.candor-popover-pending-avatar {
+  background: url(https://github.com/WithCandor/assets/blob/main/candor-pending-1x.png?raw=true);
+  background-position: 0 0;
+}
+.candor-popover-neutral-avatar {
+  background: url(https://github.com/WithCandor/assets/blob/main/candor-neutral-1x.png?raw=true);
+  background-position: 0 0;
+}
+.candor-popover-safe-avatar {
+  background: url(https://github.com/WithCandor/assets/blob/main/candor-safe-1x.png?raw=true);
+  background-position: 0 0;
+}
+
+.candor-popover-phi-label {
+  padding: 6px;
+  text-align: center;
+  font-size: 12px;
+  color: #FFFFFF;
+  display: block;
+}
+
+.phi-label-danger {
+  background: #EF8865;
+}
+.phi-label-warning {
+  background: #002063;
+}
+.phi-label-neutral, .phi-label-pending, .phi-label-safe {
+  background: #779CB9;
+}
+
 .ext-etheraddresslookup-link {
   white-space: nowrap;
+}
+
+#ext-etheraddresslookup-chain_lookup_form {
+  padding: 0 10px;
+}
+
+#ext-etheraddresslookup-chain_lookup_form input {
+  background: url(/images/candor-icon-light.png) 2px 2px no-repeat #E7EBEE;
+  padding-left: 44px;
+  border-radius: 20px;
+  border-width: 0px;
+  font-size: 12px;
+  color: #8EABC2;
+}
+
+#ext-etheraddresslookup-chain_lookup_form button {
+  display: none;
 }
 
 .ext-etheraddresslookup-link-highlight {
@@ -38,24 +151,32 @@
 #ext-etheraddresslookup-popup {
   margin: 0;
   padding: 0px;
-  font-family: "Arial";
+  font-family: 'Poppins', 'Arial', sans-serif;
   font-size: 12pt;
   width: 300px;
 }
 
+#ext-etheraddresslookup-chain_lookup_details {
+  margin: 0;
+  padding: 0;
+}
+
 #ext-etheraddresslookup-popup #content {
-  padding-top: 15px;
-  padding-left: 15px;
-  padding-right: 15px;
-  background: url(/images/powered-by-mycrypto.png);
-  background-size: 85%;
-  background-position: bottom;
+  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  /* background: url(/images/bg.png); */
+  /* background-position: 0px 400px; */
   background-repeat: no-repeat;
 }
 
 #ext-etheraddresslookup-popup #content #footer {
-  padding-top: 4em;
+  margin-top: 5px;
+  padding: 5px 10px;
   font-size: 70%;
+  line-height: 100%;
+  color: #99B3C8;
 }
 
 #ext-etheraddresslookup-blacklist_domains_stats {
@@ -67,18 +188,18 @@
 }
 
 #ext-etheraddresslookup-report {
-  margin-bottom: 20px;
-  padding: 8px 20px 8px 17px;
-  width: 100%;
-  font-size: 10pt;
+  font-weight: bold;
+  color: #7FA1BC;
+  font-size: 10px;
 }
 
 .ext-etheraddresslookup-center {
   text-align: center;
+  /* padding-bottom: 10px; */
 }
 
 #ext-etheraddresslookup-bookmarks {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .ext-etheraddresslookup-bookmark_icon {
@@ -187,9 +308,31 @@
 }
 
 .ext-etheraddresslookup-popover h3, .h3 {
-  font-family: inherit;
-  font-weight: 500;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  font-kerning: 38px;
+  letter-spacing: -0.5;
+  color: #0F3984;
   line-height: 1.1;
+}
+
+#ext-etheraddresslookup-logo {
+  background: url(/images/candor-logo.png);
+  /* background-size: 5%; */
+  background-position: left;
+  background-size: 40%;
+  background-repeat: no-repeat;
+  height: 28px;
+}
+
+#ext-etheraddresslookup-logo h1 {
+  display: none;
+}
+
+#ext-etheraddresslookup-logo .description {
+  float: right;
+  text-align: right;
 }
 
 .ext-etheraddresslookup-popover .close {
@@ -223,7 +366,7 @@
   display: block;
   max-width: 276px;
   padding: 1px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Poppins', "Helvetica Neue", Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
   line-height: 1.5;
@@ -523,10 +666,16 @@
   width: 100%;
 }
 
+#ext-etheraddresslookup-chain_lookup_container {
+  color: #0F3984;
+}
+
 #ext-etheraddresslookup-chain_lookup_output {
   width: 100%;
   font-size: 80%;
   word-break: break-word;
+  background: url(/images/candor-home-2.png) no-repeat top center;
+  min-height: 280px;
 }
 
 #ext-etheraddresslookup-chain_lookup_output .error {
@@ -552,6 +701,10 @@
   width: 100%;
 }
 
+#ext-etheraddresslookup-popup .btn-success {
+  background-color: #ffa67F;
+}
+
 .ext-etheraddresslookup-address_stats_hover {
   z-index: 10;
   position: absolute;
@@ -565,17 +718,20 @@
   all: initial;
   display: none;
   position: absolute;
+  font-family: 'Poppins', 'Arial', sans-serif; 
   bottom: 5%;
   left: 5%;
   right: 5%;
   top: 10%;
   background-color: #fff;
+  border-radius: 5px;
   color: #000;
-  padding: .5em;
+  padding: 0;
   z-index: 99999;
-  width: 275px;
-  height: 120px;
-  border: 2px solid #e4e4e4;
+  width: 220px;
+  height: 340px;
+  border: 1px solid #D3DEE5;
+  /* border: 2px solid #e4e4e4; */
   overflow-x: hidden;
   overflow-y: hidden;
   -webkit-user-select: none;
@@ -590,10 +746,8 @@
 
 .ext-etheraddresslookup-address_stats_hover .ext-etheraddresslookup-address_stats_hover_content > span {
   all: initial;
-  font-size: 10pt;
+  font-size: 12px;
   text-decoration: none;
-  font-style: normal;
-  font-family: 'Verdana';
   display: block;
   line-height: 2em;
   -webkit-user-select: none;
@@ -618,9 +772,7 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  background: #d02626;
-  border-radius: 5em;
-  height: 10px;
+  height: 12px;
   width: auto;
   position: absolute;
   right: 5%;
@@ -638,9 +790,7 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  background: #32a735;
-  border-radius: 5em;
-  height: 10px;
+  height: 12px;
   width: auto;
   position: absolute;
   right: 5%;
@@ -662,4 +812,15 @@
   color: #fff;
   text-decoration: underline;
 }
+
+div.candor-report-danger {
+  background: url(/images/candor-app-issue.png) 8px 10px no-repeat #F4F4F4;
+  border-radius: 10px;
+  color: #7FA1BC;
+  font-size: 11px;
+  padding: 10px 5px 10px 80px;
+  margin: 0px 10px;
+  height: 80px;
+}
+
 /*# sourceMappingURL=app.css.map */

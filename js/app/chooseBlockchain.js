@@ -55,13 +55,13 @@ function toggleBlockchainExplorer() {
 
 function refreshBlockchainExplorer() {
     var strBlockchainExplorer = localStorage.getItem("ext-etheraddresslookup-blockchain_explorer");
-
+/**
     if(strBlockchainExplorer === null) {
         document.getElementById("ext-etheraddresslookup-choose_blockchain").value = "https://etherscan.io/address";
     } else {
         document.getElementById("ext-etheraddresslookup-choose_blockchain").value = strBlockchainExplorer;
     }
-
+**/
     //Notify the tab to do a class method
     var strMethod = "changeBlockchainExplorer";
     var objBrowser = chrome ? chrome : browser;
