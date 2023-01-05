@@ -1,9 +1,9 @@
 const LABELS_KEY = 'labels';
 const LABELLED_ADDRESSES_KEY = 'labelledAddresses';
 const BEGINNING_AND_END_CHARS_IN_ADDR_TO_SHOW = 6;
-const FORM_ADDRESS_SELECTOR = '#ext-etheraddresslookup-label-address';
-const FORM_NAME_SELECTOR = '#ext-etheraddresslookup-label-name';
-const FORM_COLOR_SELECTOR = '#ext-etheraddresslookup-label-color';
+const FORM_ADDRESS_SELECTOR = '#ext-candor-label-address';
+const FORM_NAME_SELECTOR = '#ext-candor-label-name';
+const FORM_COLOR_SELECTOR = '#ext-candor-label-color';
 
 class Labels {
 
@@ -93,7 +93,7 @@ class Labels {
         }
 
         return `<span
-            class='ext-etheraddresslookup-label'
+            class='ext-candor-label'
             style="color:${font_color};background-color:#${color};">
                 ${name}
             </span>`;
@@ -107,13 +107,13 @@ class Labels {
         }
 
         return `<span
-            class="ext-etheraddresslookup-label"
+            class="ext-candor-label"
             data-fill-label-input="${address}"
             style="color:${font_color};background-color:#${color};">
                 ${name} (${this.shortenAddress(address)})
             </span>
             &nbsp;
-            <span style="float:right; cursor:pointer;" class="ext-etheraddresslookup-label-delete" data-ext-etheraddresslookup-label-id="${address}">x</span>
+            <span style="float:right; cursor:pointer;" class="ext-candor-label-delete" data-ext-candor-label-id="${address}">x</span>
             <br/>`;
     }
 
@@ -179,11 +179,11 @@ class Labels {
     }
 
     addLabelsListEvents() {
-        const labelsDeleteElements = document.getElementsByClassName("ext-etheraddresslookup-label-delete");
+        const labelsDeleteElements = document.getElementsByClassName("ext-candor-label-delete");
 
         Array.from(labelsDeleteElements).forEach((element) => {
             element.addEventListener('click', async (event) => {
-                const id = event.target.getAttribute('data-ext-etheraddresslookup-label-id');
+                const id = event.target.getAttribute('data-ext-candor-label-id');
 
                 await this.remove(id);
 
@@ -207,7 +207,7 @@ class Labels {
     }
 
     setupFormSubmitHandler() {
-        // document.getElementById('ext-etheraddresslookup-new-label-form').addEventListener('submit', async (event) => {
+        // document.getElementById('ext-candor-new-label-form').addEventListener('submit', async (event) => {
         //     event.preventDefault();
 
         //     const name = document.querySelector(FORM_NAME_SELECTOR).value;
@@ -236,7 +236,7 @@ class Labels {
             );
         }
 
-        document.getElementById('ext-etheraddresslookup-current-labels').innerHTML = HTMLLabels;
+        document.getElementById('ext-candor-current-labels').innerHTML = HTMLLabels;
 
         objBrowser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             objBrowser.tabs.sendMessage(tabs[0].id, {

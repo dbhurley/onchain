@@ -21,8 +21,8 @@ const ETHEREUM_NETWORK_IDS = { //As per https://ethereum.stackexchange.com/a/171
 
 //Sets the local storage to remember their match favourite blockchain explorer
 function toggleBlockchainExplorer() {
-    var objBlockchainExplorer = document.getElementById("ext-etheraddresslookup-choose_blockchain");
-    localStorage.setItem("ext-etheraddresslookup-blockchain_explorer", objBlockchainExplorer.options[objBlockchainExplorer.selectedIndex].value);
+    var objBlockchainExplorer = document.getElementById("ext-candor-choose_blockchain");
+    localStorage.setItem("ext-candor-blockchain_explorer", objBlockchainExplorer.options[objBlockchainExplorer.selectedIndex].value);
 
     // See if the node is on a different network
     let intNetworkId = objBlockchainExplorer.options[objBlockchainExplorer.selectedIndex].dataset.network;
@@ -33,19 +33,19 @@ function toggleBlockchainExplorer() {
         let intWeb3NetworkId = web3.version.network;
 
         if(intWeb3NetworkId !== intNetworkId) {
-            document.querySelector(".ext-etheraddresslookup-note_network_diff").style.display = "block";
-            document.querySelector(".ext-etheraddresslookup-note_network_diff").innerHTML = `
+            document.querySelector(".ext-candor-note_network_diff").style.display = "block";
+            document.querySelector(".ext-candor-note_network_diff").innerHTML = `
                 <strong>NOTE:</strong> Your node is on a different network to your preferred blockchain explorer!
             `;
 
             if(ETHEREUM_NETWORK_IDS.hasOwnProperty(intWeb3NetworkId)) {
-                document.querySelector(".ext-etheraddresslookup-note_network_diff").innerHTML += `
+                document.querySelector(".ext-candor-note_network_diff").innerHTML += `
                     Your node is pointing to <strong>${ETHEREUM_NETWORK_IDS[intWeb3NetworkId]}</strong>
                 `;
             }
         } else {
-            document.querySelector(".ext-etheraddresslookup-note_network_diff").style.display = "none";
-            document.querySelector(".ext-etheraddresslookup-note_network_diff").innerHTML = ``;
+            document.querySelector(".ext-candor-note_network_diff").style.display = "none";
+            document.querySelector(".ext-candor-note_network_diff").innerHTML = ``;
         }
     });
 
@@ -54,12 +54,12 @@ function toggleBlockchainExplorer() {
 }
 
 function refreshBlockchainExplorer() {
-    var strBlockchainExplorer = localStorage.getItem("ext-etheraddresslookup-blockchain_explorer");
+    var strBlockchainExplorer = localStorage.getItem("ext-candor-blockchain_explorer");
 /**
     if(strBlockchainExplorer === null) {
-        document.getElementById("ext-etheraddresslookup-choose_blockchain").value = "https://etherscan.io/address";
+        document.getElementById("ext-candor-choose_blockchain").value = "https://etherscan.io/address";
     } else {
-        document.getElementById("ext-etheraddresslookup-choose_blockchain").value = strBlockchainExplorer;
+        document.getElementById("ext-candor-choose_blockchain").value = strBlockchainExplorer;
     }
 **/
     //Notify the tab to do a class method

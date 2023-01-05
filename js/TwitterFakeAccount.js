@@ -53,10 +53,10 @@ class TwitterFakeAccount
 
     doNeutralAlert(objData)
     {
-        var objNodes = document.getElementsByClassName("ext-etheraddresslookup-tweet-" + objData.tweet_id);
+        var objNodes = document.getElementsByClassName("ext-candor-tweet-" + objData.tweet_id);
         for (var intCounter = 0; intCounter < objNodes.length; intCounter++) {
             var objNode = objNodes[intCounter];
-            if (objNode.getAttribute("ext-etheraddresslookup-twitterflagged")) {
+            if (objNode.getAttribute("ext-candor-twitterflagged")) {
                 return;
             }
 
@@ -64,7 +64,7 @@ class TwitterFakeAccount
             if(typeof objAccountDetails === 'undefined') {
                 return;
             }
-            objNode.setAttribute("ext-etheraddresslookup-twitterflagged", 1);
+            objNode.setAttribute("ext-candor-twitterflagged", 1);
 
             var objWhitelistedIcon = document.createElement("img");
             objWhitelistedIcon.src = chrome.runtime.getURL('/images/twitter/neutral.png');
@@ -76,15 +76,15 @@ class TwitterFakeAccount
 
     doBlacklistAlert(objData)
     {
-        var objNodes = document.getElementsByClassName("ext-etheraddresslookup-tweet-" + objData.tweet_id);
+        var objNodes = document.getElementsByClassName("ext-candor-tweet-" + objData.tweet_id);
         for (var intCounter = 0; intCounter < objNodes.length; intCounter++) {
             var objNode = objNodes[intCounter];
-            if (objNode.getAttribute("ext-etheraddresslookup-twitterflagged")) {
+            if (objNode.getAttribute("ext-candor-twitterflagged")) {
                 return;
             }
 
             var objAccountDetails = objNode.getElementsByClassName("account-group")[0];
-            objNode.setAttribute("ext-etheraddresslookup-twitterflagged", 1);
+            objNode.setAttribute("ext-candor-twitterflagged", 1);
 
             var objWhitelistedIcon = document.createElement("img");
             objWhitelistedIcon.src = chrome.runtime.getURL('/images/twitter/blacklisted.png');
@@ -95,16 +95,16 @@ class TwitterFakeAccount
     }
 
     doWhitelistAlert(objData) {
-        var objNodes = document.getElementsByClassName("ext-etheraddresslookup-tweet-" + objData.tweet_id);
+        var objNodes = document.getElementsByClassName("ext-candor-tweet-" + objData.tweet_id);
         for (var intCounter = 0; intCounter < objNodes.length; intCounter++) {
             var objNode = objNodes[intCounter];
 
-            if (objNode.getAttribute("ext-etheraddresslookup-twitterflagged")) {
+            if (objNode.getAttribute("ext-candor-twitterflagged")) {
                 return;
             }
 
             var objAccountDetails = objNode.getElementsByClassName("account-group")[0];
-            objNode.setAttribute("ext-etheraddresslookup-twitterflagged", 1);
+            objNode.setAttribute("ext-candor-twitterflagged", 1);
 
             var objWhitelistedIcon = document.createElement("img");
             objWhitelistedIcon.src = chrome.runtime.getURL('/images/twitter/whitelisted.png');
@@ -221,9 +221,9 @@ chrome.runtime.sendMessage({func: "twitter_validation"}, function(objResponse) {
                     var arrTweetData = [];
                     for(var intCounter=0; intCounter<arrTweets.length; intCounter++) {
 
-                        if(arrTweets[intCounter].classList.contains("ext-etheraddresslookup-tweet-"+arrTweets[intCounter].getAttribute("data-tweet-id")) === false) {
+                        if(arrTweets[intCounter].classList.contains("ext-candor-tweet-"+arrTweets[intCounter].getAttribute("data-tweet-id")) === false) {
 
-                            arrTweets[intCounter].classList.add("ext-etheraddresslookup-tweet-" + arrTweets[intCounter].getAttribute("data-tweet-id"));
+                            arrTweets[intCounter].classList.add("ext-candor-tweet-" + arrTweets[intCounter].getAttribute("data-tweet-id"));
 
                             let blContactBackground = true;
 

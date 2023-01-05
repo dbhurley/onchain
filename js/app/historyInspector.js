@@ -1,5 +1,5 @@
 (function () {
-    var objHistoryInspector = document.getElementById("ext-etheraddresslookup-history_inspect");
+    var objHistoryInspector = document.getElementById("ext-candor-history_inspect");
     //Perform the history inspection
     if(typeof chrome !== 'undefined') {
         objHistoryInspector.addEventListener('click', event => {
@@ -33,10 +33,10 @@ function doHistoryInspection() {
         var intTotalWarnings = 0;
         var strReportText = "";
 
-        var objBlacklistedDomains = localStorage.getItem("ext-etheraddresslookup-blacklist_domains_list");
+        var objBlacklistedDomains = localStorage.getItem("ext-candor-blacklist_domains_list");
         objBlacklistedDomains = JSON.parse(objBlacklistedDomains);
 
-        var objDiv = document.getElementById("ext-etheraddresslookup-history_inspect_data");
+        var objDiv = document.getElementById("ext-candor-history_inspect_data");
         objDiv.innerHTML = "";
 
         for (var intIterator = 0; intIterator < objHistoryItems.length; intIterator++) {
@@ -50,15 +50,15 @@ function doHistoryInspection() {
 
             //See if the domain is in the phishing list
             if (objBlacklistedDomains.domains.indexOf(objUri.domain()) >= 0) {
-                strReportText += "<span class='ext-etheraddresslookup-note'>" + (new Date(objHistoryItems[intIterator].lastVisitTime).toUTCString()) + "</span>&nbsp;";
+                strReportText += "<span class='ext-candor-note'>" + (new Date(objHistoryItems[intIterator].lastVisitTime).toUTCString()) + "</span>&nbsp;";
                 //Did EAL redirect you away?
                 if (blRedirected) {
-                    strReportText += objUri.domain() + "<span class='ext-etheraddresslookup-note ext-etheraddresslookup-history_good'>EAL successfully redirected you away.</span>";
+                    strReportText += objUri.domain() + "<span class='ext-candor-note ext-candor-history_good'>EAL successfully redirected you away.</span>";
                 } else {
-                    strReportText += objUri.domain() + "<span class='ext-etheraddresslookup-note ext-etheraddresslookup-history_bad'>Domain is now blacklisted - but wasn't at the time.</span>";
+                    strReportText += objUri.domain() + "<span class='ext-candor-note ext-candor-history_bad'>Domain is now blacklisted - but wasn't at the time.</span>";
                     ++intTotalWarnings;
                 }
-                strReportText += "<span class='ext-etheraddresslookup-note'><small>Visited "+ objHistoryItems[intIterator].visitCount +" times</small></span>";
+                strReportText += "<span class='ext-candor-note'><small>Visited "+ objHistoryItems[intIterator].visitCount +" times</small></span>";
                 strReportText += "<br />";
             }
 
@@ -82,7 +82,7 @@ function doHistoryInspection() {
 
 function exitNoPermission()
 {
-    var objDiv = document.getElementById("ext-etheraddresslookup-history_inspect_data");
+    var objDiv = document.getElementById("ext-candor-history_inspect_data");
     objDiv.innerHTML = "<div class='error'>Permission wasn't granted. Cannot inspect history!</div>";
     objDiv.classList.remove("hide-me");
 }

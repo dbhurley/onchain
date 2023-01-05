@@ -1,11 +1,11 @@
-const HIGHLIGHT_CHECKBOX_SELECTOR = '[name="ext-etheraddresslookup-show_style"]';
+const HIGHLIGHT_CHECKBOX_SELECTOR = '[name="ext-candor-show_style"]';
 
 //Sets the local storage to remember their match highlight settings
 function toggleMatchHighlight()
 {
     var objShowHighlight = document.querySelector(HIGHLIGHT_CHECKBOX_SELECTOR);
     var intShowHighlight = objShowHighlight.checked ? 1 : 0;
-    localStorage.setItem("ext-etheraddresslookup-show_style", intShowHighlight);
+    localStorage.setItem("ext-candor-show_style", intShowHighlight);
 
     refreshHighlightOption();
 }
@@ -13,7 +13,7 @@ function toggleMatchHighlight()
 function refreshHighlightOption()
 {
     var objBrowser = chrome ? chrome : browser;
-    var intShowHighlight = localStorage.getItem("ext-etheraddresslookup-show_style");
+    var intShowHighlight = localStorage.getItem("ext-candor-show_style");
 
     // document.querySelector(HIGHLIGHT_CHECKBOX_SELECTOR).checked = (intShowHighlight == 1 ? true : false);
     //Notify the tab to do a class method

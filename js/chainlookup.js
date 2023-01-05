@@ -1,8 +1,8 @@
-const FORM_CHAIN_LOOKUP_SELECTOR = '#ext-etheraddresslookup-chain_lookup_form';
-const FORM_CHAIN_LOOKUP_INPUT_SELECTOR = '#ext-etheraddresslookup-addr_or_tx';
-const FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR = '#ext-etheraddresslookup-chain_lookup_output';
+const FORM_CHAIN_LOOKUP_SELECTOR = '#ext-candor-chain_lookup_form';
+const FORM_CHAIN_LOOKUP_INPUT_SELECTOR = '#ext-candor-addr_or_tx';
+const FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR = '#ext-candor-chain_lookup_output';
 const FORM_CHAIN_LOOKUP_OUTPUT_SELECTOR_LABEL = '#candor-popover-phi-heading';
-const FORM_CHAIN_LOOKUP_DETAILS_SELECTOR = '#ext-etheraddresslookup-chain_lookup_details';
+const FORM_CHAIN_LOOKUP_DETAILS_SELECTOR = '#ext-candor-chain_lookup_details';
 
 class ChainLookup 
 {

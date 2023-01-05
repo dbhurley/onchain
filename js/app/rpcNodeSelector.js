@@ -70,8 +70,8 @@ const ETH_NETWORK_MAP = [
 ];
 
 let LOCALSTORAGE_IDENTIFER = {
-    "DETAILS": "ext-etheraddresslookup-rpc_node_details",
-    "ENDPOINT": "ext-etheraddresslookup-rpc_node"
+    "DETAILS": "ext-candor-rpc_node_details",
+    "ENDPOINT": "ext-candor-rpc_node"
 }
 
 class RpcNodeSelector
@@ -85,7 +85,7 @@ class RpcNodeSelector
     {
         if(localStorage.getItem(LOCALSTORAGE_IDENTIFER.DETAILS)) {
             let objDetails = JSON.parse(localStorage.getItem(LOCALSTORAGE_IDENTIFER.DETAILS));
-            document.getElementById("ext-etheraddresslookup-rpcnode_current_details").innerText = `You are currently connected to: ${[objDetails.name, objDetails.type].join(" ")}`
+            document.getElementById("ext-candor-rpcnode_current_details").innerText = `You are currently connected to: ${[objDetails.name, objDetails.type].join(" ")}`
         }
     }
 
@@ -95,7 +95,7 @@ class RpcNodeSelector
     populateRpcNodeInput()
     {
         objBrowser.runtime.sendMessage({func: "rpc_provider"}, function(objResponse) {
-            document.getElementById("ext-etheraddresslookup-rpcnode_modify_url").value = objResponse.resp;
+            document.getElementById("ext-candor-rpcnode_modify_url").value = objResponse.resp;
         });
 
         RpcNodeSelector.getCurrentNetworkDescription();
@@ -104,7 +104,7 @@ class RpcNodeSelector
     resetFormValues(objEvent)
     {
         objBrowser.runtime.sendMessage({func: "rpc_default_provider"}, function(objResponse) {
-            document.getElementById("ext-etheraddresslookup-rpcnode_modify_url").value = objResponse.resp;
+            document.getElementById("ext-candor-rpcnode_modify_url").value = objResponse.resp;
         });
 
         objEvent.preventDefault();
@@ -112,12 +112,12 @@ class RpcNodeSelector
 
     saveFormValues(objEvent)
     {
-        var objRpcValue = document.getElementById("ext-etheraddresslookup-rpcnode_modify_url");
+        var objRpcValue = document.getElementById("ext-candor-rpcnode_modify_url");
 
-        document.getElementById("ext-etheraddresslookup-rpcnode_connected_status").classList.add("hide-me");
-        document.getElementById("ext-etheraddresslookup-rpcnode_details").classList.add("hide-me");
+        document.getElementById("ext-candor-rpcnode_connected_status").classList.add("hide-me");
+        document.getElementById("ext-candor-rpcnode_details").classList.add("hide-me");
 
-        var objRpcSuccessNode = document.getElementById("ext-etheraddresslookup-rpcnode_success");
+        var objRpcSuccessNode = document.getElementById("ext-candor-rpcnode_success");
         objRpcSuccessNode.classList.add("hide-me");
 
         if( RpcNodeSelector.rpcEndpointIsAvailable(objRpcValue.value) ) {
@@ -135,7 +135,7 @@ class RpcNodeSelector
     static rpcEndpointIsAvailable(strHttpProvider)
     {
         var objWeb3 = new Web3(new Web3.providers.HttpProvider(strHttpProvider));
-        var objRpcErrorNode = document.getElementById("ext-etheraddresslookup-rpcnode_errors");
+        var objRpcErrorNode = document.getElementById("ext-candor-rpcnode_errors");
         objRpcErrorNode.innerText = "";
         objRpcErrorNode.classList.add("hide-me");
 
@@ -147,7 +147,7 @@ class RpcNodeSelector
             return false;
         }
 
-        var objRpcSuccessNode = document.getElementById("ext-etheraddresslookup-rpcnode_success");
+        var objRpcSuccessNode = document.getElementById("ext-candor-rpcnode_success");
         objRpcSuccessNode.classList.remove("hide-me");
 
         return true;
@@ -158,13 +158,13 @@ class RpcNodeSelector
         var strWeb3Provider = localStorage.getItem(LOCALSTORAGE_IDENTIFER.ENDPOINT);
         var objWeb3 = new Web3(new Web3.providers.HttpProvider(strWeb3Provider));
 
-        document.getElementById("ext-etheraddresslookup-rpcnode_connected_status").classList.remove("hide-me");
-        document.getElementById("ext-etheraddresslookup-rpcnode_details").classList.remove("hide-me");
+        document.getElementById("ext-candor-rpcnode_connected_status").classList.remove("hide-me");
+        document.getElementById("ext-candor-rpcnode_details").classList.remove("hide-me");
 
         var blConnected = objWeb3.isConnected();
-        document.getElementById("ext-etheraddresslookup-rpcnode_connected_status").innerHTML = (blConnected ? "CONNECTED" : "DISCONNECTED") + "<br />";
+        document.getElementById("ext-candor-rpcnode_connected_status").innerHTML = (blConnected ? "CONNECTED" : "DISCONNECTED") + "<br />";
         if(blConnected) {
-            document.getElementById("ext-etheraddresslookup-rpcnode_details").innerHTML = `
+            document.getElementById("ext-candor-rpcnode_details").innerHTML = `
                 ETH Version: ${objWeb3.version.ethereum}<br />
                 API Version: ${objWeb3.version.api}<br />
             `;
@@ -172,7 +172,7 @@ class RpcNodeSelector
 
         const intNetworkId = parseInt(objWeb3.version.network);
         let arrNetwork = ETH_NETWORK_MAP.filter(v => v.network_id === intNetworkId)
-        document.getElementById("ext-etheraddresslookup-rpcnode_details").innerHTML += `
+        document.getElementById("ext-candor-rpcnode_details").innerHTML += `
             Network: ${arrNetwork[0].name} (${arrNetwork[0].type})
         `;
 
@@ -187,7 +187,7 @@ class RpcNodeSelector
     let objRpcNodeSelector = new RpcNodeSelector();
     objRpcNodeSelector.populateRpcNodeInput();
 
-    var objForm = document.getElementById("ext-etheraddresslookup-rpcnode_modify_form");
+    var objForm = document.getElementById("ext-candor-rpcnode_modify_form");
     objForm.addEventListener("reset", objRpcNodeSelector.resetFormValues, true);
     objForm.addEventListener("submit", objRpcNodeSelector.saveFormValues, true);
 })();

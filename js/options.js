@@ -1,37 +1,37 @@
 let objBrowser = chrome ? chrome : browser;
 (function() {
     //Toggle the highlight option and set it in LocalStorage
-    var objOptionAddHighlight = document.querySelector('[name="ext-etheraddresslookup-show_style"]');
+    var objOptionAddHighlight = document.querySelector('[name="ext-candor-show_style"]');
     if(objOptionAddHighlight) {
         objOptionAddHighlight.addEventListener('click', toggleMatchHighlight);
     }
 
     //Select the blockchain explorer set it in LocalStorage
-    var objOptionBlockchainExplorer = document.getElementById('ext-etheraddresslookup-choose_blockchain');
+    var objOptionBlockchainExplorer = document.getElementById('ext-candor-choose_blockchain');
     if(objOptionBlockchainExplorer) {
         objOptionBlockchainExplorer.addEventListener('change', toggleBlockchainExplorer);
     }
 
     //Toggle the address lookups option and set it in LocalStorage
-    var objAddressLookups = document.getElementById('ext-etheraddresslookup-perform_address_lookups');
+    var objAddressLookups = document.getElementById('ext-candor-perform_address_lookups');
     if(objAddressLookups) {
         objAddressLookups.addEventListener('click', togglePerformAddressLookups);
     }
 
     //Toggle the blacklist domains option and set it in LocalStorage
-    let objBlacklistDomains = document.getElementById('ext-etheraddresslookup-blacklist_domains');
+    let objBlacklistDomains = document.getElementById('ext-candor-blacklist_domains');
     if (objBlacklistDomains) {
         objBlacklistDomains.addEventListener('click', toggleBlacklistDomains);
     }
 
     //Toggle the use 3rd party blacklist domains option and set it in LocalStorage
-    objBlacklistDomains = document.getElementById('ext-etheraddresslookup-3rd_party_blacklist_domains');
+    objBlacklistDomains = document.getElementById('ext-candor-3rd_party_blacklist_domains');
     if (objBlacklistDomains) {
         objBlacklistDomains.addEventListener('click', toggle3rdPartyBlacklistDomains);
     }
 
     //Toggle the use of blacklisting all punycode domains and set it in LocalStorage
-    var objBlacklistPunycodeDomains = document.getElementById('ext-etheraddresslookup-block_punycode_blacklist_domains');
+    var objBlacklistPunycodeDomains = document.getElementById('ext-candor-block_punycode_blacklist_domains');
     if(objBlacklistPunycodeDomains) {
         objBlacklistPunycodeDomains.addEventListener('click', toggleBlockPunycodeDomains);
     }
@@ -44,10 +44,10 @@ let objBrowser = chrome ? chrome : browser;
     }
 
     // //Get the rpc network details
-    var objNetworkDetails = document.querySelector("#ext-etheraddresslookup-rpc_node_details > span");
+    var objNetworkDetails = document.querySelector("#ext-candor-rpc_node_details > span");
     if(objNetworkDetails) {
         let objNetworkDetails;
-        if(localStorage.getItem("ext-etheraddresslookup-rpc_node_details") === null) {
+        if(localStorage.getItem("ext-candor-rpc_node_details") === null) {
             objNetworkDetails = {
                 "network_id": 1,
                 "chain_id": 1,
@@ -55,9 +55,9 @@ let objBrowser = chrome ? chrome : browser;
                 "type": "ETH"
             };
         } else {
-            objNetworkDetails = JSON.parse(localStorage.getItem("ext-etheraddresslookup-rpc_node_details"));
+            objNetworkDetails = JSON.parse(localStorage.getItem("ext-candor-rpc_node_details"));
         }
-        document.querySelector("#ext-etheraddresslookup-rpc_node_details > span").innerText = [objNetworkDetails.name, objNetworkDetails.type].join(" - ");
+        document.querySelector("#ext-candor-rpc_node_details > span").innerText = [objNetworkDetails.name, objNetworkDetails.type].join(" - ");
     }
 
     //init getting blacklisted domains
@@ -81,28 +81,28 @@ objBrowser.runtime.onMessage.addListener(
 
         switch(strOption) {
             case 'highlight_option' :
-                strResponse = localStorage.getItem("ext-etheraddresslookup-show_style");
+                strResponse = localStorage.getItem("ext-candor-show_style");
                 break;
             case 'blockchain_explorer' :
-                strResponse = localStorage.getItem("ext-etheraddresslookup-blockchain_explorer");
+                strResponse = localStorage.getItem("ext-candor-blockchain_explorer");
                 if(strResponse === null) {
                     strResponse = "https://etherscan.io/address";
                 }
                 break;
             case 'blacklist_domains' :
                 //This option is enabled by default
-                if(localStorage.getItem("ext-etheraddresslookup-blacklist_domains") === null) {
+                if(localStorage.getItem("ext-candor-blacklist_domains") === null) {
                     strResponse = 1;
                 } else {
-                    strResponse = localStorage.getItem("ext-etheraddresslookup-blacklist_domains");
+                    strResponse = localStorage.getItem("ext-candor-blacklist_domains");
                 }
                 break;
             case '3rd_party_blacklist_domains' :
                 //This option is enabled by defailt
-                if(localStorage.getItem("ext-etheraddresslookup-3rd_party_blacklist_domains") === null) {
+                if(localStorage.getItem("ext-candor-3rd_party_blacklist_domains") === null) {
                     strResponse = 1;
                 } else {
-                    strResponse = localStorage.getItem("ext-etheraddresslookup-3rd_party_blacklist_domains");
+                    strResponse = localStorage.getItem("ext-candor-3rd_party_blacklist_domains");
                 }
                 break;
             case 'blacklist_domain_list' :
@@ -119,18 +119,18 @@ objBrowser.runtime.onMessage.addListener(
                 break;
             case 'use_3rd_party_blacklists' :
                 //This option is enabled by default
-                if(localStorage.getItem("ext-etheraddresslookup-use_3rd_party_blacklist") === null) {
+                if(localStorage.getItem("ext-candor-use_3rd_party_blacklist") === null) {
                     strResponse = 1;
                 } else {
-                    strResponse = localStorage.getItem("ext-etheraddresslookup-use_3rd_party_blacklist");
+                    strResponse = localStorage.getItem("ext-candor-use_3rd_party_blacklist");
                 }
                 break;
             case 'block_punycode_domains' :
                 //This option is disabled by default
-                if(localStorage.getItem("ext-etheraddresslookup-block_punycode_blacklist_domains") === null) {
+                if(localStorage.getItem("ext-candor-block_punycode_blacklist_domains") === null) {
                     strResponse = 0;
                 } else {
-                    strResponse = localStorage.getItem("ext-etheraddresslookup-block_punycode_blacklist_domains");
+                    strResponse = localStorage.getItem("ext-candor-block_punycode_blacklist_domains");
                 }
                 break;
             case 'whitelist_domain_list' :
@@ -138,7 +138,7 @@ objBrowser.runtime.onMessage.addListener(
                 strResponse = getWhitelistedDomains();
                 break;
             case 'rpc_details' :
-                    if(localStorage.getItem("ext-etheraddresslookup-rpc_node_details") === null) {
+                    if(localStorage.getItem("ext-candor-rpc_node_details") === null) {
                         strResponse = JSON.stringify({
                                 "network_id": 1,
                                 "chain_id": 1,
@@ -146,14 +146,14 @@ objBrowser.runtime.onMessage.addListener(
                                 "type": "ETH"
                             })
                     } else {
-                        strResponse = localStorage.getItem("ext-etheraddresslookup-rpc_node_details");
+                        strResponse = localStorage.getItem("ext-candor-rpc_node_details");
                     }
                 break;
             case 'rpc_provider' :
-                    if(localStorage.getItem("ext-etheraddresslookup-rpc_node") === null) {
+                    if(localStorage.getItem("ext-candor-rpc_node") === null) {
                         strResponse = "https://mainnet.infura.io/v3/02b145caa61b49998168f2b97d4ef323";
                     } else {
-                        strResponse = localStorage.getItem("ext-etheraddresslookup-rpc_node");
+                        strResponse = localStorage.getItem("ext-candor-rpc_node");
                     }
                 break;
             case 'rpc_default_provider' :
@@ -161,10 +161,10 @@ objBrowser.runtime.onMessage.addListener(
                 break;
             case 'perform_address_lookups' :
                 //This option is enabled by default
-                if(localStorage.getItem("ext-etheraddresslookup-perform_address_lookups") === null) {
+                if(localStorage.getItem("ext-candor-perform_address_lookups") === null) {
                     strResponse = 1;
                 } else {
-                    strResponse = localStorage.getItem("ext-etheraddresslookup-perform_address_lookups");
+                    strResponse = localStorage.getItem("ext-candor-perform_address_lookups");
                 }
                 break;
             case 'blacklist_whitelist_domain_list' :
@@ -177,10 +177,10 @@ objBrowser.runtime.onMessage.addListener(
             case 'twitter_validation' :
                 strResponse = 1;
                 //This option is enabled by default
-                // if(localStorage.getItem("ext-etheraddresslookup-twitter_validation") === null) {
+                // if(localStorage.getItem("ext-candor-twitter_validation") === null) {
                 //     strResponse = 1;
                 // } else {
-                //     strResponse = localStorage.getItem("ext-etheraddresslookup-twitter_validation");
+                //     strResponse = localStorage.getItem("ext-candor-twitter_validation");
                 // }
                 break;
 
@@ -192,8 +192,8 @@ objBrowser.runtime.onMessage.addListener(
                     "blacklist": []
                 };
 
-                if(localStorage.getItem("ext-etheraddresslookup-twitter_lists")) {
-                    let saved_settings = JSON.parse(localStorage.getItem("ext-etheraddresslookup-twitter_lists"));
+                if(localStorage.getItem("ext-candor-twitter_lists")) {
+                    let saved_settings = JSON.parse(localStorage.getItem("ext-candor-twitter_lists"));
                     twitter_lists.last_fetched = saved_settings.last_fetched;
                 }
 
@@ -216,12 +216,12 @@ objBrowser.runtime.onMessage.addListener(
                             }
                         );
 
-                        localStorage.setItem("ext-etheraddresslookup-twitter_lists", JSON.stringify(twitter_lists));
+                        localStorage.setItem("ext-candor-twitter_lists", JSON.stringify(twitter_lists));
                     });
                 }
 
-                if(localStorage.getItem("ext-etheraddresslookup-twitter_lists")) {
-                    var cached_list = JSON.parse(localStorage.getItem("ext-etheraddresslookup-twitter_lists"));
+                if(localStorage.getItem("ext-candor-twitter_lists")) {
+                    var cached_list = JSON.parse(localStorage.getItem("ext-candor-twitter_lists"));
                     twitter_lists.whitelist = cached_list.whitelist;
                     twitter_lists.blacklist = cached_list.blacklist;
                 }
@@ -230,15 +230,15 @@ objBrowser.runtime.onMessage.addListener(
                 break;
             case 'signature_inject' :
                 //This option is enabled by default
-                if(localStorage.getItem("ext-etheraddresslookup-signature_inject") === null) {
+                if(localStorage.getItem("ext-candor-signature_inject") === null) {
                     strResponse = 1;
                 } else {
-                    strResponse = localStorage.getItem("ext-etheraddresslookup-signature_inject");
+                    strResponse = localStorage.getItem("ext-candor-signature_inject");
                 }
                 break;
             case 'user_domain_bookmarks' :
                 // Fetches the user domain bookmarks - these are domains they trust
-                var strBookmarks = localStorage.getItem("ext-etheraddresslookup-bookmarks");
+                var strBookmarks = localStorage.getItem("ext-candor-bookmarks");
                 //No bookmarks have been set, set the default ones.
                 if(strBookmarks === null) {
                     var arrBookmarks = new Array();
@@ -368,10 +368,10 @@ function getBlacklistedDomains(strType)
         }
     };
     //See if we need to get the blacklisted domains - ie: do we have them cached?
-    if (localStorage.getItem("ext-etheraddresslookup-blacklist_domains_list") === null) {
+    if (localStorage.getItem("ext-candor-blacklist_domains_list") === null) {
         updateAllBlacklists(objEalBlacklistedDomains);
     } else {
-        var objBlacklistedDomains = localStorage.getItem("ext-etheraddresslookup-blacklist_domains_list");
+        var objBlacklistedDomains = localStorage.getItem("ext-candor-blacklist_domains_list");
         //Check to see if the cache is older than 5 minutes, if so re-cache it.
         objBlacklistedDomains = JSON.parse(objBlacklistedDomains);
         console.log("Last updated: " + (Math.floor(Date.now() / 1000) - objBlacklistedDomains.timestamp) + " seconds ago");
@@ -387,7 +387,7 @@ function getBlacklistedDomains(strType)
         strType = `${strType}_`;
     }
 
-    return localStorage.getItem(`ext-etheraddresslookup-${strType}blacklist_domains_list`);
+    return localStorage.getItem(`ext-candor-${strType}blacklist_domains_list`);
 }
 
 function updateAllBlacklists(objEalBlacklistedDomains)
@@ -396,22 +396,22 @@ function updateAllBlacklists(objEalBlacklistedDomains)
         objEalBlacklistedDomains.eal.timestamp = Math.floor(Date.now() / 1000);
         objEalBlacklistedDomains.eal.domains = arrDomains.filter((v,i,a)=>a.indexOf(v)==i);
 
-        localStorage.setItem("ext-etheraddresslookup-blacklist_domains_list", JSON.stringify(objEalBlacklistedDomains.eal));
+        localStorage.setItem("ext-candor-blacklist_domains_list", JSON.stringify(objEalBlacklistedDomains.eal));
     });
 
     getBlacklistedDomainsFromSource(objEalBlacklistedDomains.uri).then(function (arrDomains) {
         objEalBlacklistedDomains.uri.timestamp = Math.floor(Date.now() / 1000);
         objEalBlacklistedDomains.uri.domains = arrDomains.filter((v,i,a)=>a.indexOf(v)==i);
 
-        localStorage.setItem("ext-etheraddresslookup-uri_blacklist_domains_list", JSON.stringify(objEalBlacklistedDomains.uri));
+        localStorage.setItem("ext-candor-uri_blacklist_domains_list", JSON.stringify(objEalBlacklistedDomains.uri));
     });
 
-    if( [null, 1].indexOf(localStorage.getItem("ext-etheraddresslookup-use_3rd_party_blacklist")) >= 0) {
+    if( [null, 1].indexOf(localStorage.getItem("ext-candor-use_3rd_party_blacklist")) >= 0) {
         getBlacklistedDomainsFromSource(objEalBlacklistedDomains.third_party.phishfort).then(function (arrDomains) {
 
             let arrPhishFortBlacklist = [];
             // De-dupe from the main EAL source - save on space.
-            let objEalBlacklist = localStorage.getItem("ext-etheraddresslookup-blacklist_domains_list");
+            let objEalBlacklist = localStorage.getItem("ext-candor-blacklist_domains_list");
             if(objEalBlacklist !== null) {
                 objEalBlacklist = JSON.parse(objEalBlacklist);
                 let arrEalBlacklist = objEalBlacklist.domains;
@@ -426,7 +426,7 @@ function updateAllBlacklists(objEalBlacklistedDomains)
             objEalBlacklistedDomains.third_party.phishfort.timestamp = Math.floor(Date.now() / 1000);
             objEalBlacklistedDomains.third_party.phishfort.domains = arrPhishFortBlacklist;
 
-            localStorage.setItem("ext-etheraddresslookup-3p_blacklist_domains_list", JSON.stringify(objEalBlacklistedDomains.third_party));
+            localStorage.setItem("ext-candor-3p_blacklist_domains_list", JSON.stringify(objEalBlacklistedDomains.third_party));
             return objEalBlacklistedDomains.eal.domains;
         });
 
@@ -434,7 +434,7 @@ function updateAllBlacklists(objEalBlacklistedDomains)
             objEalBlacklistedDomains.third_party.segasec.timestamp = Math.floor(Date.now() / 1000);
             objEalBlacklistedDomains.third_party.segasec.domains = arrDomains.filter((v,i,a)=>a.indexOf(v)==i);
 
-            localStorage.setItem("ext-etheraddresslookup-3p_blacklist_domains_list", JSON.stringify(objEalBlacklistedDomains.third_party));
+            localStorage.setItem("ext-candor-3p_blacklist_domains_list", JSON.stringify(objEalBlacklistedDomains.third_party));
             return objEalBlacklistedDomains.eal.domains;
         });
     }
@@ -444,16 +444,16 @@ function getWhitelistedDomains()
 {
     let objWhitelistedDomains = {"timestamp":0,"domains":[]};
     //See if we need to get the blacklisted domains - ie: do we have them cached?
-    if (localStorage.getItem("ext-etheraddresslookup-whitelist_domains_list") === null) {
+    if (localStorage.getItem("ext-candor-whitelist_domains_list") === null) {
         getWhitelistedDomainsFromSource().then(function (arrDomains) {
             objWhitelistedDomains.timestamp = Math.floor(Date.now() / 1000);
             objWhitelistedDomains.domains = arrDomains;
 
-            localStorage.setItem("ext-etheraddresslookup-whitelist_domains_list", JSON.stringify(objWhitelistedDomains));
+            localStorage.setItem("ext-candor-whitelist_domains_list", JSON.stringify(objWhitelistedDomains));
             return objWhitelistedDomains.domains;
         });
     } else {
-        objWhitelistedDomains = localStorage.getItem("ext-etheraddresslookup-whitelist_domains_list");
+        objWhitelistedDomains = localStorage.getItem("ext-candor-whitelist_domains_list");
         //Check to see if the cache is older than 5 minutes, if so re-cache it.
         objWhitelistedDomains = JSON.parse(objWhitelistedDomains);
         console.log("Safe domains last updated: " + (Math.floor(Date.now() / 1000) - objWhitelistedDomains.timestamp) + " seconds ago");
@@ -463,7 +463,7 @@ function getWhitelistedDomains()
                 objWhitelistedDomains.timestamp = Math.floor(Date.now() / 1000);
                 objWhitelistedDomains.domains = arrDomains;
 
-                localStorage.setItem("ext-etheraddresslookup-whitelist_domains_list", JSON.stringify(objWhitelistedDomains));
+                localStorage.setItem("ext-candor-whitelist_domains_list", JSON.stringify(objWhitelistedDomains));
                 return objWhitelistedDomains.domains;
             });
         }

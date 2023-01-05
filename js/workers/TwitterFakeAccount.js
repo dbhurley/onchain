@@ -1,3 +1,4 @@
+// Worker
 class TwitterFakeAccount
 {
 

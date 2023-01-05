@@ -5,9 +5,9 @@
         if(objResponse.resp === "1") {
             window.onload = function() {
                 var strSignature = "<!--- EAL IS INSTALLED -->";
-                if (document.getElementById("ext-etheraddresslookup-signature") === null) {
+                if (document.getElementById("ext-candor-signature") === null) {
                     var objSignatureDiv = document.createElement('div');
-                    objSignatureDiv.id = "ext-etheraddresslookup-signature";
+                    objSignatureDiv.id = "ext-candor-signature";
                     objSignatureDiv.innerHTML = strSignature;
                     document.body.appendChild(objSignatureDiv);
                 }

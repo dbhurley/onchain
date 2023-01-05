@@ -11,10 +11,10 @@ class SignatureSelector
      */
     populateOptionCheckbox()
     {
-        document.getElementById("ext-etheraddresslookup-signature_success").classList.add("hide-me");
+        document.getElementById("ext-candor-signature_success").classList.add("hide-me");
 
         objBrowser.runtime.sendMessage({func: "signature_inject"}, function(objResponse) {
-            document.getElementById("ext-etheraddresslookup-signature_modify_checkbox").checked = !!parseInt(objResponse.resp);
+            document.getElementById("ext-candor-signature_modify_checkbox").checked = !!parseInt(objResponse.resp);
         });
     }
 
@@ -22,9 +22,9 @@ class SignatureSelector
     {
         objEvent.preventDefault();
 
-        var objSignatureInject = document.getElementById("ext-etheraddresslookup-signature_modify_checkbox");
-        localStorage.setItem("ext-etheraddresslookup-signature_inject", objSignatureInject.checked ? 1 : 0);
-        document.getElementById("ext-etheraddresslookup-signature_success").classList.remove("hide-me");
+        var objSignatureInject = document.getElementById("ext-candor-signature_modify_checkbox");
+        localStorage.setItem("ext-candor-signature_inject", objSignatureInject.checked ? 1 : 0);
+        document.getElementById("ext-candor-signature_success").classList.remove("hide-me");
         return false;
     }
 
@@ -35,6 +35,6 @@ class SignatureSelector
     let objSignatureSelector = new SignatureSelector();
     objSignatureSelector.populateOptionCheckbox();
 
-    var objForm = document.getElementById("ext-etheraddresslookup-signature_modify_form");
+    var objForm = document.getElementById("ext-candor-signature_modify_form");
     objForm.addEventListener("submit", objSignatureSelector.saveFormValues, true);
 })();

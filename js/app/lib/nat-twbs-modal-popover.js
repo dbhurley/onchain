@@ -280,7 +280,7 @@
             containerData = element[getAttribute](dataContainer),
 
             // internal strings
-            component = 'ext-etheraddresslookup-popover',
+            component = 'ext-candor-popover',
             template = 'template',
             trigger = 'trigger',
             classString = 'class',
@@ -444,7 +444,7 @@
 
     // POPOVER DATA API
     // ================
-    initializeDataAPI(stringPopover, ext_etheraddresslookup_Popover, DOC[querySelectorAll]('['+dataToggle+'="ext-etheraddresslookup-popover"]'));
+    initializeDataAPI(stringPopover, ext_etheraddresslookup_Popover, DOC[querySelectorAll]('['+dataToggle+'="ext-candor-popover"]'));
 
 
     /* Native Javascript for Bootstrap 4 | Tab
@@ -461,7 +461,7 @@
         var heightData = element[getAttribute](dataHeight),
 
             // strings
-            component = 'ext-etheraddresslookup-tab',
+            component = 'ext-candor-tab',
             height = 'height', float = 'float', isAnimating = 'isAnimating';
 
         // set options
@@ -470,7 +470,7 @@
 
         // bind, event targets
         var self = this, next,
-            tabs = getClosest(element,'.ext-etheraddresslookup-nav'),
+            tabs = getClosest(element,'.ext-candor-nav'),
             tabsContentContainer = false,
             dropdown = tabs && queryElement('.dropdown-toggle',tabs),
             activeTab, activeContent, nextContent, containerHeight, equalContents, nextHeight,
@@ -591,7 +591,7 @@
 
     // TAB DATA API
     // ============
-    initializeDataAPI(stringTab, ext_etheraddresslookup_Tab, DOC[querySelectorAll]('['+dataToggle+'="ext-etheraddresslookup-tab"]'));
+    initializeDataAPI(stringTab, ext_etheraddresslookup_Tab, DOC[querySelectorAll]('['+dataToggle+'="ext-candor-tab"]'));
 
     return {
         ext_etheraddresslookup_Popover: ext_etheraddresslookup_Popover,

@@ -26,13 +26,13 @@
             </p>
 
             <!-- <label class="fancy-checkbox">
-                <input type="checkbox" name="ext-etheraddresslookup-show_bookmarks" id="ext-etheraddresslookup-show_bookmarks">
-                <span id="ext-etheraddresslookup-show_bookmarks_text">Enabled</span>
+                <input type="checkbox" name="ext-candor-show_bookmarks" id="ext-candor-show_bookmarks">
+                <span id="ext-candor-show_bookmarks_text">Enabled</span>
             </label> -->
 
             <br />
 
-            <table class="pure-table pure-table-striped" id="ext-etheraddresslookup-bookmarks_table">
+            <table class="pure-table pure-table-striped" id="ext-candor-bookmarks_table">
                 <thead>
                     <th>Icon</th>
                     <th>URL</th>
@@ -44,24 +44,24 @@
             </table>
 
             <!---- Modify Bookmark Window --->
-            <div id="ext-etheraddresslookup-bookmark_modify_window">
+            <div id="ext-candor-bookmark_modify_window">
                 <h3>Modify Bookmark</h3>
-                <form method="post" action="" class="pure-form pure-form-aligned" id="ext-etheraddresslookup-bookmark_modify_form">
+                <form method="post" action="" class="pure-form pure-form-aligned" id="ext-candor-bookmark_modify_form">
                     <div class="pure-control-group">
                         <label for="icon">Icon</label>
-                        <input type="text" placeholder="The URL to the icon" id="ext-etheraddresslookup-bookmark_modify_icon">
+                        <input type="text" placeholder="The URL to the icon" id="ext-candor-bookmark_modify_icon">
                         <span class="pure-form-message note">Leave the value blank unless you want a custom icon.</span>
                     </div>
                     <div class="pure-control-group">
                         <label for="link">Link</label>
-                        <input type="text" placeholder="The URL to bookmark" id="ext-etheraddresslookup-bookmark_modify_url">
+                        <input type="text" placeholder="The URL to bookmark" id="ext-candor-bookmark_modify_url">
                     </div>
 
-                    <input type="hidden" id="ext-etheraddresslookup-bookmark_modify_id">
+                    <input type="hidden" id="ext-candor-bookmark_modify_id">
                     <button type="submit" class="pure-button pure-button-primary">Save</button>
                 </form>
                 <br />
-                <div class="pure-button pure-button-secondary ext-button-small " id="ext-etheraddresslookup-bookmark_modify_remove">Remove bookmark</div>
+                <div class="pure-button pure-button-secondary ext-button-small " id="ext-candor-bookmark_modify_remove">Remove bookmark</div>
             </div>
         </div>
         <div class="setting-container pure-u-1-2 pure-u-xl-1-2 pure-u-lg-1-2 pure-u-md-1-2 pure-u-sm-1-1">
@@ -70,7 +70,7 @@
                 malicious. You can use this tool to let EAL inspect your browser history and see if you've visited
                 such domain. EAL will then give you some advice pointers on what to do if it finds something. <br /><br />
 
-                <span class="ext-etheraddresslookup-note">
+                <span class="ext-candor-note">
                     <strong>Note:</strong>
                     None of your browser history is communicated anywhere, all the checks are done locally. You may need to
                     accept the permission request for EAL to access your browser history. Running this check will be the <i>only</i>
@@ -80,14 +80,14 @@
 
             <br /><br />
 
-            <div id="ext-etheraddresslookup-history_inspect_data" class="hide-me">
+            <div id="ext-candor-history_inspect_data" class="hide-me">
 
             </div>
 
             <br /><br />
 
-            <button id="ext-etheraddresslookup-history_inspect">Inspect History Now</button> <br />
-            <small class="ext-etheraddresslookup-note">EAL will inspect the last 500 history entries</small>
+            <button id="ext-candor-history_inspect">Inspect History Now</button> <br />
+            <small class="ext-candor-note">EAL will inspect the last 500 history entries</small>
             <h3></h3>
         </div>
     </div>
@@ -98,24 +98,24 @@
             <p>Here you can set the RPC node (ie: <code>http://localhost:8545</code>) for address lookups. EAL supplies a mainnet
                 one for you that is maintained by <a href="https://www.quiknode.io?tap_a=22610-7a7484&tap_s=150933-0c5904" target="_blank">Quiknode</a>, but you may want to use your own.</p>
             <p>Overwriting the default node will be helpful if you want lookups done on a testnet.</p>
-            <div class="warning margin-15 hide-me" id="ext-etheraddresslookup-rpcnode_errors"></div>
-            <div class="success margin-15 hide-me" id="ext-etheraddresslookup-rpcnode_success">
+            <div class="warning margin-15 hide-me" id="ext-candor-rpcnode_errors"></div>
+            <div class="success margin-15 hide-me" id="ext-candor-rpcnode_success">
                 RPC Node setting has been updated. <br />
-                <span id="ext-etheraddresslookup-rpcnode_connected_status"></span>
-                <span id="ext-etheraddresslookup-rpcnode_details"></span>
+                <span id="ext-candor-rpcnode_connected_status"></span>
+                <span id="ext-candor-rpcnode_details"></span>
             </div>
 
             <p>
-                <span id="ext-etheraddresslookup-rpcnode_current_details"></span>
+                <span id="ext-candor-rpcnode_current_details"></span>
             </p>
 
-            <form method="post" action="" class="pure-form pure-form-aligned" id="ext-etheraddresslookup-rpcnode_modify_form">
+            <form method="post" action="" class="pure-form pure-form-aligned" id="ext-candor-rpcnode_modify_form">
                 <div class="pure-control-group">
-                    <label for="ext-etheraddresslookup-rpcnode_modify_url">RPC Node:</label>
-                    <input type="text" name="rpcnode" placeholder="localhost:8545" id="ext-etheraddresslookup-rpcnode_modify_url">
+                    <label for="ext-candor-rpcnode_modify_url">RPC Node:</label>
+                    <input type="text" name="rpcnode" placeholder="localhost:8545" id="ext-candor-rpcnode_modify_url">
                 </div>
 
-                <button type="reset" class="pure-button pure-button-secondary" id="ext-etheraddresslookup-rpcnode_reset_form">Reset to Default</button>
+                <button type="reset" class="pure-button pure-button-secondary" id="ext-candor-rpcnode_reset_form">Reset to Default</button>
                 <button type="submit" class="pure-button pure-button-primary">Save</button>
             </form>
 
@@ -131,14 +131,14 @@
             can be used by sites to prompt you to install EAL for various reasons, especially to prevent you from landing
             on fake sites.</p>
 
-            <div class="success margin-15 hide-me" id="ext-etheraddresslookup-signature_success">
+            <div class="success margin-15 hide-me" id="ext-candor-signature_success">
                 Setting has been saved.
             </div>
 
-            <form method="post" action="" class="pure-form pure-form-aligned" id="ext-etheraddresslookup-signature_modify_form">
+            <form method="post" action="" class="pure-form pure-form-aligned" id="ext-candor-signature_modify_form">
                 <div class="pure-control-group">
-                    <label for="ext-etheraddresslookup-signature_modify_checkbox">Enabled:</label>
-                    <input type="checkbox" name="signature" id="ext-etheraddresslookup-signature_modify_checkbox">
+                    <label for="ext-candor-signature_modify_checkbox">Enabled:</label>
+                    <input type="checkbox" name="signature" id="ext-candor-signature_modify_checkbox">
                 </div>
 
                 <button type="submit" class="pure-button pure-button-primary">Save</button>

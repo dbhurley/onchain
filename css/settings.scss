@@ -54,19 +54,19 @@ body {
   width: 100%;
 }
 
-.ext-etheraddresslookup-note {
+.ext-candor-note {
   color: #757575;
   font-style: italic;
   font-size: 10pt;
 
-  &.ext-etheraddresslookup-history_good {
+  &.ext-candor-history_good {
     margin: 5px;
     color: $main_color;
     background: $main_background;
     padding: 2px;
   }
 
-  &.ext-etheraddresslookup-history_bad {
+  &.ext-candor-history_bad {
     margin: 5px;
     color: $main_color;
     background: $error_color;
@@ -74,7 +74,7 @@ body {
   }
 }
 
-#ext-etheraddresslookup-bookmark_modify_remove {
+#ext-candor-bookmark_modify_remove {
   font-size: 85%;
   background: rgb(202, 60, 60);
   color: #fff;

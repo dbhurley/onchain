@@ -11,9 +11,9 @@
 //Sets the local storage to remember their match blacklist settings
 function toggleBlacklistDomains()
 {
-    var objBlacklistDomains = document.getElementById("ext-etheraddresslookup-blacklist_domains");
+    var objBlacklistDomains = document.getElementById("ext-candor-blacklist_domains");
     var intBlacklistDomains = objBlacklistDomains.checked ? 1 : 0;
-    localStorage.setItem("ext-etheraddresslookup-blacklist_domains", intBlacklistDomains);
+    localStorage.setItem("ext-candor-blacklist_domains", intBlacklistDomains);
 
     refreshBlacklistDomains();
 }
@@ -21,9 +21,9 @@ function toggleBlacklistDomains()
 //Sets the local storage to remember their use 3rd party blacklist setting
 function toggle3rdPartyBlacklistDomains()
 {
-    var obj3rdPartyBlacklists = document.getElementById("ext-etheraddresslookup-3rd_party_blacklist_domains");
+    var obj3rdPartyBlacklists = document.getElementById("ext-candor-3rd_party_blacklist_domains");
     var intBlacklistDomains = obj3rdPartyBlacklists.checked ? 1 : 0;
-    localStorage.setItem("ext-etheraddresslookup-3rd_party_blacklist_domains", intBlacklistDomains);
+    localStorage.setItem("ext-candor-3rd_party_blacklist_domains", intBlacklistDomains);
 
     refreshBlacklistDomains();
 }
@@ -31,9 +31,9 @@ function toggle3rdPartyBlacklistDomains()
 //Sets the local storage to remember if we are blocking all punycode domains or not
 function toggleBlockPunycodeDomains()
 {
-    var objBlockPunycodeDomains = document.getElementById("ext-etheraddresslookup-block_punycode_blacklist_domains");
+    var objBlockPunycodeDomains = document.getElementById("ext-candor-block_punycode_blacklist_domains");
     var intBlockPunycodeDomains = objBlockPunycodeDomains.checked ? 1 : 0;
-    localStorage.setItem("ext-etheraddresslookup-block_punycode_blacklist_domains", intBlockPunycodeDomains);
+    localStorage.setItem("ext-candor-block_punycode_blacklist_domains", intBlockPunycodeDomains);
 
     refreshBlacklistDomains();
 }
@@ -45,36 +45,36 @@ function refreshBlacklistDomains()
         console.log("BDL-001 - Fetched blacklisted domains");
     });
 
-    var intBlacklistDomains = localStorage.getItem("ext-etheraddresslookup-blacklist_domains");
+    var intBlacklistDomains = localStorage.getItem("ext-candor-blacklist_domains");
 
     if(intBlacklistDomains === null) {
-        // document.getElementById("ext-etheraddresslookup-blacklist_domains").checked = true;
+        // document.getElementById("ext-candor-blacklist_domains").checked = true;
     } else {
-        document.getElementById("ext-etheraddresslookup-blacklist_domains").checked = (intBlacklistDomains == 1 ? true : false);
+        document.getElementById("ext-candor-blacklist_domains").checked = (intBlacklistDomains == 1 ? true : false);
     }
 
     //Check/uncheck use 3rd party blacklists
-    var intUse3rdPartyBlacklists = localStorage.getItem("ext-etheraddresslookup-3rd_party_blacklist_domains");
+    var intUse3rdPartyBlacklists = localStorage.getItem("ext-candor-3rd_party_blacklist_domains");
     if(intUse3rdPartyBlacklists === null) {
-        document.getElementById("ext-etheraddresslookup-3rd_party_blacklist_domains").checked = true;
+        document.getElementById("ext-candor-3rd_party_blacklist_domains").checked = true;
     } else {
-        document.getElementById("ext-etheraddresslookup-3rd_party_blacklist_domains").checked = (intUse3rdPartyBlacklists == 1 ? true : false);
+        document.getElementById("ext-candor-3rd_party_blacklist_domains").checked = (intUse3rdPartyBlacklists == 1 ? true : false);
     }
 
     //Check/uncheck use block punycode domains
-    var intBlockPunycodeDomains = localStorage.getItem("ext-etheraddresslookup-block_punycode_blacklist_domains");
+    var intBlockPunycodeDomains = localStorage.getItem("ext-candor-block_punycode_blacklist_domains");
     if(intBlockPunycodeDomains === null) {
-        document.getElementById("ext-etheraddresslookup-block_punycode_blacklist_domains").checked = true;
+        document.getElementById("ext-candor-block_punycode_blacklist_domains").checked = true;
     } else {
-        document.getElementById("ext-etheraddresslookup-block_punycode_blacklist_domains").checked = (intBlockPunycodeDomains == 1 ? true : false);
+        document.getElementById("ext-candor-block_punycode_blacklist_domains").checked = (intBlockPunycodeDomains == 1 ? true : false);
     }
 }
 
 function getBlacklistStats()
 {
-    var objLastUpdatedText = document.getElementById("ext-etheraddresslookup-blacklist_domains_last_updated");
-    var objTotalCountText = document.getElementById("ext-etheraddresslookup-blacklist_domains_total_count");
-    let objBlacklistedDomains = localStorage.getItem("ext-etheraddresslookup-blacklist_domains_list");
+    var objLastUpdatedText = document.getElementById("ext-candor-blacklist_domains_last_updated");
+    var objTotalCountText = document.getElementById("ext-candor-blacklist_domains_total_count");
+    let objBlacklistedDomains = localStorage.getItem("ext-candor-blacklist_domains_list");
     objBlacklistedDomains = JSON.parse(objBlacklistedDomains);
     var intLastUpdated = objBlacklistedDomains.timestamp;
 
@@ -82,8 +82,8 @@ function getBlacklistStats()
     objTotalCountText.innerText = new Intl.NumberFormat().format(objBlacklistedDomains.domains.length);
 
     //Now get the 3p blacklist stats
-    var objTotal3pCountText = document.getElementById("ext-etheraddresslookup-3p_blacklist_domains_total_count");
-    objBlacklistedDomains = localStorage.getItem("ext-etheraddresslookup-3p_blacklist_domains_list");
+    var objTotal3pCountText = document.getElementById("ext-candor-3p_blacklist_domains_total_count");
+    objBlacklistedDomains = localStorage.getItem("ext-candor-3p_blacklist_domains_list");
     objBlacklistedDomains = JSON.parse(objBlacklistedDomains);
     var intTotalBlacklisted = 0;
     for(var str3pName in objBlacklistedDomains) {

@@ -1,11 +1,11 @@
-const TWITTER_CHECKBOX_SELECTOR = '[name="ext-etheraddresslookup-twitter_validation"]';
+const TWITTER_CHECKBOX_SELECTOR = '[name="ext-candor-twitter_validation"]';
 
 //Sets the local storage to remember their match highlight settings
 function toggleTwitterValidation()
 {
     var objTwitterValidation = document.querySelector(TWITTER_CHECKBOX_SELECTOR);
     var intTwitterValidation = objTwitterValidation.checked ? 1 : 0;
-    localStorage.setItem("ext-etheraddresslookup-twitter_validation", intTwitterValidation);
+    localStorage.setItem("ext-candor-twitter_validation", intTwitterValidation);
 
     refreshTwittertOption();
 }
@@ -14,10 +14,10 @@ function refreshTwittertOption()
 {
     var objBrowser = chrome ? chrome : browser;
     var intTwitterValidation;
-    if(localStorage.getItem("ext-etheraddresslookup-twitter_validation") === null) {
+    if(localStorage.getItem("ext-candor-twitter_validation") === null) {
         intTwitterValidation = true;
     } else {
-        intTwitterValidation = localStorage.getItem("ext-etheraddresslookup-twitter_validation");
+        intTwitterValidation = localStorage.getItem("ext-candor-twitter_validation");
     }
 
     if(intTwitterValidation) {
@@ -38,8 +38,8 @@ function getTwitterLists()
         "blacklist": []
     };
 
-    if(localStorage.getItem("ext-etheraddresslookup-twitter_lists")) {
-        let saved_settings = JSON.parse(localStorage.getItem("ext-etheraddresslookup-twitter_lists"));
+    if(localStorage.getItem("ext-candor-twitter_lists")) {
+        let saved_settings = JSON.parse(localStorage.getItem("ext-candor-twitter_lists"));
         twitter_lists.last_fetched = saved_settings.last_fetched;
     }
 
@@ -62,7 +62,7 @@ function getTwitterLists()
                 }
             );
 
-            localStorage.setItem("ext-etheraddresslookup-twitter_lists", JSON.stringify(twitter_lists));
+            localStorage.setItem("ext-candor-twitter_lists", JSON.stringify(twitter_lists));
         });
     }
 }
